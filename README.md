@@ -35,6 +35,10 @@ của Christian Schiller.
 
 Nghĩa tiếng Việt trong CVDICT phần lớn được dịch tự động bằng AI rồi rà soát lại, nên vẫn có thể còn sót lỗi.
 
+## Quyền riêng tư
+
+Hán Thông chạy hoàn toàn trên máy, không gửi dữ liệu lên Internet. Xem [PRIVACY.md](PRIVACY.md).
+
 ## Phát triển
 
 Dữ liệu gốc nằm trong `data-src/`. Sau khi cập nhật dữ liệu gốc, sinh lại từ điển:
