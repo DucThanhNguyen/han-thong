@@ -1,3 +1,38 @@
 body {
     margin: 20px;
 }
+
+#words th {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+#words th[data-sort="asc"]::after {
+    content: " ▲";
+}
+
+#words th[data-sort="desc"]::after {
+    content: " ▼";
+}
+
+#words tbody tr {
+    cursor: pointer;
+}
+
+#words td.notes-empty {
+    color: #6c757d;
+    font-style: italic;
+}
+
+#editNotes {
+    border: none;
+    padding: 0;
+    width: 500px;
+    max-width: 90vw;
+    background: transparent;
+}
+
+#editNotes::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}

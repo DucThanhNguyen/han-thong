@@ -58,7 +58,7 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create(
         {
             id: 'wordlistMenuItem',
-            title: 'Open word list'
+            title: 'Mở danh sách từ vựng'
         }, () => {
             if (chrome.runtime.lastError) {
                 // ignore
@@ -69,7 +69,7 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create(
         {
             id: 'helpMenuItem',
-            title: 'Show help in new tab'
+            title: 'Xem hướng dẫn trong tab mới'
         }, () => {
             if (chrome.runtime.lastError) {
                 // ignore
@@ -162,11 +162,32 @@ function activateExtension(tabId) {
 
     chrome.storage.local.set({isActive: true});
 
-    enableTab(tabId);
-
     showActiveBadge();
 
-    showHelpMenu(tabId);
+    ensureContentScripts(tabId).then(() => {
+        enableTab(tabId);
+        showHelpMenu(tabId);
+    });
+}
+
+// Tabs opened before the extension was installed or reloaded have no content
+// script yet: inject it instead of requiring the user to reload the page.
+async function ensureContentScripts(tabId) {
+    try {
+        if (await chrome.tabs.sendMessage(tabId, {'type': 'ping'})) {
+            return;
+        }
+    } catch (e) {
+        // no content script in this tab
+    }
+
+    let {js, css} = chrome.runtime.getManifest().content_scripts[0];
+    try {
+        await chrome.scripting.insertCSS({target: {tabId, allFrames: true}, files: css});
+        await chrome.scripting.executeScript({target: {tabId, allFrames: true}, files: js});
+    } catch (e) {
+        // pages where extensions cannot run, e.g. chrome:// and the Chrome Web Store
+    }
 }
 
 function enableTab(tabId) {
@@ -181,11 +202,11 @@ function enableTab(tabId) {
 
 function showActiveBadge() {
     chrome.action.setBadgeBackgroundColor({
-        'color': [255, 0, 0, 255]
+        'color': [30, 142, 62, 255]
     });
 
     chrome.action.setBadgeText({
-        'text': 'On'
+        'text': 'Bật'
     });
 }
 
@@ -270,21 +291,11 @@ function search(text) {
 }
 
 async function loadDictionary() {
-    let [wordDict, wordIndex, grammarKeywords, vocabKeywords] = await loadDictData();
-    return new ZhongwenDictionary(wordDict, wordIndex, grammarKeywords, vocabKeywords);
-}
-
-async function loadDictData() {
-    let wordDict = fetch(chrome.runtime.getURL(
-        "data/cedict_ts.u8")).then(r => r.text());
-    let wordIndex = fetch(chrome.runtime.getURL(
-        "data/cedict.idx")).then(r => r.text());
-    let grammarKeywords = fetch(chrome.runtime.getURL(
-        "data/grammarKeywordsMin.json")).then(r => r.json());
-    let vocabKeywords = fetch(chrome.runtime.getURL(
-        "data/vocabularyKeywordsMin.json")).then(r => r.json());
-
-    return Promise.all([wordDict, wordIndex, grammarKeywords, vocabKeywords]);
+    let [wordDict, wordIndex] = await Promise.all([
+        fetch(chrome.runtime.getURL('data/dict.u8')).then(r => r.text()),
+        fetch(chrome.runtime.getURL('data/dict.idx')).then(r => r.text())
+    ]);
+    return new ZhongwenDictionary(wordDict, wordIndex);
 }
 
 function lookup(dictionary, text) {
@@ -292,17 +303,7 @@ function lookup(dictionary, text) {
     let entry = dictionary.wordSearch(text);
 
     if (entry) {
-        for (let i = 0; i < entry.data.length; i++) {
-            let word = entry.data[i][1];
-            if (dictionary.hasGrammarKeyword(word) && (entry.matchLen === word.length)) {
-                // the final index should be the last one with the maximum length
-                entry.grammar = { keyword: word, index: i };
-            }
-            if (dictionary.hasVocabKeyword(word) && (entry.matchLen === word.length)) {
-                // the final index should be the last one with the maximum length
-                entry.vocab = { keyword: word, index: i };
-            }
-        }
+        entry.data = ZhongwenDictionary.mainEntries(entry);
     }
 
     return entry;

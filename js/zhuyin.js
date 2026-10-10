@@ -1,6 +1,6 @@
 /* global globalThis */
 
-const zhuyinTones = ['?', '', '\u02CA', '\u02C7', '\u02CB', '\u30FB'];
+const zhuyinTones = ['?', '', '\u02CA', '\u02C7', '\u02CB', '\u02D9'];
 
 const pinyinTones = {
     1: '\u0304',
@@ -436,14 +436,20 @@ const zhuyinMap = {
     "zuo": "ㄗㄨㄛ"
 };
 
-globalThis.numericPinyin2Zhuyin = function (syllable) {
-    return zhuyinMap[syllable.substring(0, syllable.length - 1).toLowerCase()]
-        + zhuyinTones[syllable[syllable.length - 1]] + '</span>';
-
+// For vertical display: 'lian4' -> ['ㄌㄧㄢ', 'ˋ'], 'xi5' -> ['ㄒㄧ', '˙']
+globalThis.numericPinyin2ZhuyinParts = function (syllable) {
+    let key = syllable.substring(0, syllable.length - 1).toLowerCase();
+    let tone = syllable[syllable.length - 1];
+    let symbols = key === 'r' ? 'ㄦ' : zhuyinMap[key];
+    if (!symbols) {
+        return null;
+    }
+    return [symbols, zhuyinTones[tone] || ''];
 };
 
 globalThis.accentedPinyin2Zhuyin = function (syllable) {
-    let lowerCased = syllable.toLowerCase();
+    // 'lǜ' -> 'lu:' + combining grave accent, like the keys of zhuyinMap
+    let lowerCased = syllable.toLowerCase().normalize('NFD').replace(/\u0308/g, ':');
     let key = lowerCased;
     let tone = 5;
     for (let i = 1; i <= 4; i++) {
@@ -457,5 +463,6 @@ globalThis.accentedPinyin2Zhuyin = function (syllable) {
             break;
         }
     }
-    return zhuyinMap[key] + zhuyinTones[tone];
+    let symbols = key === 'r' ? 'ㄦ' : zhuyinMap[key];
+    return symbols ? symbols + zhuyinTones[tone] : syllable;
 };

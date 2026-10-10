@@ -48,11 +48,9 @@
 
 export class ZhongwenDictionary {
 
-    constructor(wordDict, wordIndex, grammarKeywords, vocabKeywords) {
+    constructor(wordDict, wordIndex) {
         this.wordDict = wordDict;
         this.wordIndex = wordIndex;
-        this.grammarKeywords = grammarKeywords;
-        this.vocabKeywords = vocabKeywords;
         this.cache = {};
     }
 
@@ -78,12 +76,22 @@ export class ZhongwenDictionary {
         return null;
     }
 
-    hasGrammarKeyword(keyword) {
-        return this.grammarKeywords[keyword];
+    // Keep only the longest matching word (the Hán-Việt reading under each character
+    // already explains the parts), and drop entries without a meaning of their own
+    // (variants, "dùng trong ...", surnames) if a real one is left.
+    static mainEntries(entry) {
+        let longest = entry.data.filter(d => d[1].length === entry.matchLen);
+        let main = longest.filter(d => !ZhongwenDictionary.isMinorEntry(d[0]));
+        return main.length > 0 ? main : longest;
     }
 
-    hasVocabKeyword(keyword) {
-        return this.vocabKeywords[keyword];
+    static isMinorEntry(line) {
+        let m = line.match(/\/(.*)\//);
+        if (!m) {
+            return false;
+        }
+        return m[1].split('/').every(def =>
+            /^(họ(\s|$)|biến thể|dạng (cổ|cũ|khác)|dùng trong|xem |cũng viết|phồn thể của|giản thể của)/i.test(def.trim()));
     }
 
     wordSearch(word, max) {

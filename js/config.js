@@ -1,14 +1,14 @@
 /* global globalThis */
 
 globalThis.defaultConfig = {
-    background: 'yellow',
-    fontSize: 'small',
-    grammar: true,
-    skritterTLD: 'com',
+    background: 'white',
+    fontSize: 'medium',
+    hanziFont: 'kai',
+    maxSenses: 4,
     saveToWordList: 'firstEntryOnly',
-    simpTrad: 'classic',
+    showHanViet: true,
+    showPinyin: true,
+    simpTrad: 'auto',
     toneColors: true,
-    toneColorScheme: 'standard',
-    vocab: true,
-    zhuyin: false
+    zhuyin: true
 };

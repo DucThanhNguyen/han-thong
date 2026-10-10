@@ -1,21 +1,23 @@
 {
-  "name": "zhongwen",
-  "version": "6.4.0",
-  "description": "Chinese Pop-Up Dictionary",
+  "name": "han-thong",
+  "version": "1.0.0",
+  "description": "Từ điển Trung–Việt khi rê chuột: pinyin, chú âm, âm Hán-Việt",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cschiller/zhongwen.git"
+    "url": "git+https://github.com/DucThanhNguyen/han-thong.git"
   },
   "keywords": [
     "Chinese",
-    "Dictionary"
+    "Vietnamese",
+    "Dictionary",
+    "Hán Việt"
   ],
-  "author": "Christian Schiller",
+  "author": "Nguyễn Đức Thành",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/cschiller/zhongwen/issues"
+    "url": "https://github.com/DucThanhNguyen/han-thong/issues"
   },
-  "homepage": "https://github.com/cschiller/zhongwen#readme",
+  "homepage": "https://github.com/DucThanhNguyen/han-thong#readme",
   "devDependencies": {
     "eslint": "^8.10.0",
     "stylelint": "^14.5.3",
@@ -27,6 +29,9 @@
   },
   "scripts": {
     "lint": "eslint --fix *.js js/options.js js/wordlist.js js/zhuyin.js",
-    "csslint": "stylelint css/content.css css/wordlist.css"
+    "csslint": "stylelint css/content.css css/wordlist.css",
+    "build:dict": "node tools/build-dict.mjs",
+    "build:font": "python3 tools/build-font.py",
+    "package": "rm -f han-thong.zip && zip -r -X han-thong.zip manifest.json background.js content.js dict.js help.html options.html wordlist.html css js data fonts images -x 'images/*.svg' '*.DS_Store'"
   }
 }

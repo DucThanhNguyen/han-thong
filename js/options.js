@@ -10,6 +10,10 @@
 
 let config = globalThis.defaultConfig;
 
+// options shown as radio buttons (value attribute) and as checkboxes
+const radioOptions = ['background', 'fontSize', 'hanziFont', 'maxSenses', 'saveToWordList', 'simpTrad', 'toneColors'];
+const checkboxOptions = ['showPinyin', 'zhuyin', 'showHanViet'];
+
 chrome.storage.local.get(null, storedConfig => {
     if (storedConfig) {
         Object.entries(storedConfig).forEach(e => config[e[0]] = e[1]);
@@ -19,40 +23,27 @@ chrome.storage.local.get(null, storedConfig => {
 });
 
 function loadVals() {
+    radioOptions.forEach(option => {
+        let input = document.querySelector(`input[name="${option}"][value="${config[option]}"]`);
+        if (input) {
+            input.checked = true;
+        }
+    });
 
-    document.querySelector(`input[name="background"][value="${config.background}"]`).checked = true;
-
-    if (!config.toneColors) {
-        document.querySelector('#toneColorsNone').checked = true;
-    } else {
-        document.querySelector(`input[name="toneColors"][value="${config.toneColorScheme}"]`).checked = true;
-    }
-
-    document.querySelector(`input[name="fontSize"][value="${config.fontSize}"]`).checked = true;
-
-    document.querySelector(`input[name="simpTrad"][value="${config.simpTrad}"]`).checked = true;
-
-    document.querySelector('#zhuyin').checked = config.zhuyin;
-
-    document.querySelector('#grammar').checked = config.grammar;
-
-    document.querySelector('#vocab').checked = config.vocab;
-
-    document.querySelector(`input[name="saveToWordList"][value="${config.saveToWordList}"]`).checked = true;
-
-    document.querySelector(`input[name="skritterTLD"][value="${config.skritterTLD}"]`).checked = true;
+    checkboxOptions.forEach(option => {
+        document.querySelector(`#${option}`).checked = config[option];
+    });
 }
 
-function setPopupColor(popupColor) {
-    setOption('background', popupColor);
-}
-
-function setToneColorScheme(toneColorScheme) {
-    if (toneColorScheme === 'none') {
-        setOption('toneColors', false);
-    } else {
-        setOption('toneColors', true);
-        setOption('toneColorScheme', toneColorScheme);
+// radio values are strings, stored options keep the type of their default value
+function parseValue(option, value) {
+    switch (typeof globalThis.defaultConfig[option]) {
+        case 'boolean':
+            return value === 'true';
+        case 'number':
+            return Number(value);
+        default:
+            return value;
     }
 }
 
@@ -61,44 +52,15 @@ function setOption(option, value) {
 }
 
 window.addEventListener('load', () => {
-
-    document.querySelectorAll('input[name="background"]').forEach((input) => {
-        input.addEventListener('change',
-            () => setPopupColor(input.getAttribute('value')));
+    radioOptions.forEach(option => {
+        document.querySelectorAll(`input[name="${option}"]`).forEach(input => {
+            input.addEventListener('change',
+                () => setOption(option, parseValue(option, input.getAttribute('value'))));
+        });
     });
 
-    document.querySelectorAll('input[name="toneColors"]').forEach((input) => {
-        input.addEventListener('change',
-            () => setToneColorScheme(input.getAttribute('value')));
-    });
-
-    document.querySelectorAll('input[name="fontSize"]').forEach((input) => {
-        input.addEventListener('change',
-            () => setOption('fontSize', input.getAttribute('value')));
-    });
-
-    document.querySelectorAll('input[name="simpTrad"]').forEach((input) => {
-        input.addEventListener('change',
-            () => setOption('simpTrad', input.getAttribute('value')));
-    });
-
-    document.querySelector('#zhuyin').addEventListener('change',
-        (event) => setOption('zhuyin', event.target.checked));
-
-    document.querySelector('#grammar').addEventListener('change',
-        (event) => setOption('grammar', event.target.checked));
-
-    document.querySelector('#vocab').addEventListener('change',
-        (event) => setOption('vocab', event.target.checked));
-
-    document.querySelectorAll('input[name="saveToWordList"]').forEach((input) => {
-        input.addEventListener('change',
-            () => setOption('saveToWordList', input.getAttribute('value')));
-    });
-
-    document.querySelectorAll('input[name="skritterTLD"]').forEach((input) => {
-        input.addEventListener('change',
-            () => setOption('skritterTLD', input.getAttribute('value')));
+    checkboxOptions.forEach(option => {
+        document.querySelector(`#${option}`).addEventListener('change',
+            event => setOption(option, event.target.checked));
     });
 });
-

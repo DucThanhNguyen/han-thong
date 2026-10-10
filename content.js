@@ -165,21 +165,6 @@ function onKeyDown(keyDown) {
         }
             break;
 
-        case 71: // 'g'
-            if (config.grammar && savedSearchResults.grammar) {
-                let sel = encodeURIComponent(window.getSelection().toString());
-
-                // https://resources.allsetlearning.com/chinese/grammar/%E4%B8%AA
-                let allset = 'https://resources.allsetlearning.com/chinese/grammar/' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'grammar',
-                    url: allset
-                });
-            }
-            break;
-
         case 77: // 'm'
             selStartIncrement = 1;
         // falls through
@@ -216,64 +201,8 @@ function onKeyDown(keyDown) {
                 'entries': entries
             });
 
-            showPopup('Added to word list.<p>Press Alt+W to open word list.', null, -1, -1);
+            showPopup('Đã thêm vào danh sách từ vựng.<p>Nhấn Alt+W để mở danh sách.', null, -1, -1);
         }
-            break;
-
-        case 83: // 's'
-            {
-
-                // https://www.skritter.com/vocab/api/add?from=Chrome&lang=zh&word=浏览&trad=瀏 覽&rdng=liú lǎn&defn=to skim over; to browse
-
-                let skritter = 'https://skritter.com';
-                if (config.skritterTLD === 'cn') {
-                    skritter = 'https://skritter.cn';
-                }
-
-                skritter +=
-                    '/vocab/api/add?from=zhongwen&ref=zhongwen&lang=zh&word=' +
-                    encodeURIComponent(savedSearchResults[0][0]) +
-                    '&trad=' + encodeURIComponent(savedSearchResults[0][1]) +
-                    '&rdng=' + encodeURIComponent(savedSearchResults[0][4]) +
-                    '&defn=' + encodeURIComponent(savedSearchResults[0][3]);
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'skritter',
-                    url: skritter
-                });
-            }
-            break;
-
-        case 84: // 't'
-            {
-                let sel = encodeURIComponent(
-                    window.getSelection().toString());
-
-                // https://tatoeba.org/eng/sentences/search?from=cmn&to=eng&query=%E8%BF%9B%E8%A1%8C
-                let tatoeba = 'https://tatoeba.org/eng/sentences/search?from=cmn&to=eng&query=' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'tatoeba',
-                    url: tatoeba
-                });
-            }
-            break;
-
-        case 86: // 'v'
-            if (config.vocab && savedSearchResults.vocab) {
-                let sel = encodeURIComponent(window.getSelection().toString());
-
-                // https://resources.allsetlearning.com/chinese/vocabulary/%E4%B8%AA
-                let allset = 'https://resources.allsetlearning.com/chinese/vocabulary/' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'vocab',
-                    url: allset
-                });
-            }
             break;
 
         case 88: // 'x'
@@ -286,120 +215,6 @@ function onKeyDown(keyDown) {
             altView = 0;
             popY += 20;
             triggerSearch();
-            break;
-
-        case 49: // '1'
-            if (keyDown.altKey) {
-
-                // use the simplified character for linedict lookup
-                let simp = savedSearchResults[0][0];
-
-                // https://english.dict.naver.com/english-chinese-dictionary/#/search?query=%E8%AF%8D%E5%85%B8
-                let linedict = 'https://english.dict.naver.com/english-chinese-dictionary/#/search?query=' +
-                    encodeURIComponent(simp);
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'linedict',
-                    url: linedict
-                });
-            }
-            break;
-
-        case 50: // '2'
-            if (keyDown.altKey) {
-                let sel = encodeURIComponent(
-                    window.getSelection().toString());
-
-                // https://forvo.com/search/%E4%B8%AD%E6%96%87/zh/
-                var forvo = 'https://forvo.com/search/' + sel + '/zh/';
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'forvo',
-                    url: forvo
-                });
-            }
-            break;
-
-        case 51: // '3'
-            if (keyDown.altKey) {
-                let sel = encodeURIComponent(
-                    window.getSelection().toString());
-
-                // https://dict.cn/%E7%BF%BB%E8%AF%91
-                let dictcn = 'https://dict.cn/' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'dictcn',
-                    url: dictcn
-                });
-            }
-            break;
-
-        case 52: // '4'
-            if (keyDown.altKey) {
-                let sel = encodeURIComponent(
-                    window.getSelection().toString());
-
-                // https://www.iciba.com/%E4%B8%AD%E9%A4%90
-                let iciba = 'https://www.iciba.com/' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'iciba',
-                    url: iciba
-                });
-            }
-            break;
-
-        case 53: // '5'
-            if (keyDown.altKey) {
-                let sel = encodeURIComponent(
-                    window.getSelection().toString());
-
-                // https://www.mdbg.net/chinese/dictionary?page=worddict&wdrst=0&wdqb=%E4%B8%AD%E6%96%87
-                let mdbg = 'https://www.mdbg.net/chinese/dictionary?page=worddict&wdrst=0&wdqb=' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'mdbg',
-                    url: mdbg
-                });
-            }
-            break;
-
-        case 54: // '6'
-            if (keyDown.altKey) {
-                let sel = encodeURIComponent(
-                    window.getSelection().toString());
-
-                let reverso = 'https://context.reverso.net/translation/chinese-english/' + sel;
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'reverso',
-                    url: reverso
-                });
-            }
-            break;
-
-        case 55: // '7'
-            if (keyDown.altKey) {
-
-                // use the traditional character for moedict lookup
-                let trad = savedSearchResults[0][1];
-
-                // https://www.moedict.tw/~%E4%B8%AD%E6%96%87
-                let moedict = 'https://www.moedict.tw/~' + encodeURIComponent(trad);
-
-                chrome.runtime.sendMessage({
-                    type: 'open',
-                    tabType: 'moedict',
-                    url: moedict
-                });
-            }
             break;
 
         default:
@@ -641,9 +456,9 @@ function showPopup(html, elem, x, y, looseWidth) {
     popup.style.width = 'auto';
     popup.style.height = 'auto';
     popup.style.maxWidth = (looseWidth ? '' : '600px');
-    popup.className = `background-${config.background} tonecolor-${config.toneColorScheme}`;
+    popup.className = `background-${config.background}`;
 
-    $(popup).html(html);
+    popup.innerHTML = html;
 
     if (elem) {
         popup.style.top = '-1000px';
@@ -791,7 +606,8 @@ function isVisible() {
 function getTextForClipboard() {
     let result = '';
     for (let i = 0; i < savedSearchResults.length; i++) {
-        result += savedSearchResults[i].slice(0, -1).join('\t');
+        let [simp, trad, pinyin, translation, hanViet] = savedSearchResults[i];
+        result += [simp, trad, pinyin, hanViet, translation].join('\t');
         result += '\n';
     }
     return result;
@@ -815,10 +631,9 @@ function makeDiv(input) {
     div.scrollLeft = input.scrollLeft;
     div.style.position = 'absolute';
     div.style.zIndex = 7000;
-    $(div).offset({
-        top: $(input).offset().top,
-        left: $(input).offset().left
-    });
+    let rect = input.getBoundingClientRect();
+    div.style.top = (rect.top + window.scrollY) + 'px';
+    div.style.left = (rect.left + window.scrollX) + 'px';
 
     return div;
 }
@@ -866,100 +681,174 @@ function findPreviousTextNode(root, previous) {
 
 function copyToClipboard(data) {
     navigator.clipboard.writeText(data).then(() => {
-        showPopup('Copied to clipboard', null, -1, -1);
+        showPopup('Đã sao chép vào clipboard.', null, -1, -1);
     });
 }
 
 function makeHtml(result, showToneColors) {
 
-    let entry;
     let html = '';
     let texts = [];
-    let hanziClass;
 
     if (result === null) return '';
 
+    let classes = 'ht-results ht-' + config.fontSize;
+    if (config.hanziFont === 'kai') {
+        classes += ' ht-kai';
+    }
+    html += '<div class="' + classes + '">';
+
     for (let i = 0; i < result.data.length; ++i) {
-        entry = result.data[i][0].match(/^([^\s]+?)\s+([^\s]+?)\s+\[(.*?)\]?\s*\/(.+)\//);
+        // 修煉 修炼 [xiu1 lian4] {tu luyện} /nghĩa 1/nghĩa 2/
+        let entry = result.data[i][0].match(/^(\S+)\s+(\S+)\s+\[(.*?)\](?:\s+\{(.*?)\})?\s*\/(.*)\//);
         if (!entry) continue;
+
+        let [, trad, simp, numericPinyin, hanViet, def] = entry;
 
         // Hanzi
 
+        let word = simp;
+        let otherWord = '';
         if (config.simpTrad === 'auto') {
-
-            let word = result.data[i][1];
-
-            hanziClass = 'w-hanzi';
-            if (config.fontSize === 'small') {
-                hanziClass += '-small';
-            }
-            html += '<span class="' + hanziClass + '">' + word + '</span>&nbsp;';
-
-        } else {
-
-            hanziClass = 'w-hanzi';
-            if (config.fontSize === 'small') {
-                hanziClass += '-small';
-            }
-            html += '<span class="' + hanziClass + '">' + entry[2] + '</span>&nbsp;';
-            if (entry[1] !== entry[2]) {
-                html += '<span class="' + hanziClass + '">' + entry[1] + '</span>&nbsp;';
-            }
-
+            word = result.data[i][1];
+        } else if (trad !== simp) {
+            otherWord = trad;
         }
 
-        // Pinyin
-
-        let pinyinClass = 'w-pinyin';
-        if (config.fontSize === 'small') {
-            pinyinClass += '-small';
+        if (i > 0) {
+            html += '<div class="ht-sep"></div>';
         }
-        let p = pinyinAndZhuyin(entry[3], showToneColors, pinyinClass);
-        html += p[0];
 
-        // Zhuyin
-
-        if (config.zhuyin) {
-            html += '<br>' + p[2];
-        }
+        let w = makeWordHtml(word, numericPinyin, hanViet, showToneColors);
+        html += '<div class="ht-word">' + w.html + '</div>';
 
         // Definition
 
-        let defClass = 'w-def';
-        if (config.fontSize === 'small') {
-            defClass += '-small';
+        let translation = def.replace(/\//g, ' ◆ ');
+        let senses = def === '' ? [] : def.split('/');
+        let maxSenses = Number(config.maxSenses);
+        let shown = senses.slice(0, maxSenses > 0 ? maxSenses : senses.length).join(' ◆ ');
+        if (shown.length < translation.length) {
+            shown += ' ◆ &hellip;';
         }
-        let translation = entry[4].replace(/\//g, ' ◆ ');
-        html += '<br><span class="' + defClass + '">' + translation + '</span><br>';
-
-        let addFinalBr = false;
-
-        // Grammar
-        if (config.grammar && result.grammar && result.grammar.index === i) {
-            html += '<br><span class="grammar">Press "g" for grammar and usage notes.</span><br>';
-            addFinalBr = true;
+        html += '<div class="ht-def">';
+        if (otherWord) {
+            html += '<div class="ht-other">' + otherWord + '</div>';
         }
-
-        // Vocab
-        if (config.vocab && result.vocab && result.vocab.index === i) {
-            html += '<br><span class="vocab">Press "v" for vocabulary notes.</span><br>';
-            addFinalBr = true;
+        if (translation) {
+            html += '<div class="ht-mean">' + shown + '</div>';
+        } else {
+            html += '<div class="ht-nodef">Chưa có nghĩa tiếng Việt</div>';
         }
 
-        if (addFinalBr) {
-            html += '<br>';
-        }
+        html += '</div>';
 
-        texts[i] = [entry[2], entry[1], p[1], translation, entry[3]];
+        texts[i] = [simp, trad, w.pinyin, translation, w.hanViet];
     }
     if (result.more) {
-        html += '&hellip;<br/>';
+        html += '<div class="ht-more">&hellip;</div>';
     }
+    html += '</div>';
 
     savedSearchResults = texts;
-    savedSearchResults.grammar = result.grammar;
-    savedSearchResults.vocab = result.vocab;
 
+    return html;
+}
+
+// One cell per character: pinyin above, zhuyin on the right, Hán-Việt below.
+function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
+    let chars = [...word];
+    let syllables = numericPinyin.split(/\s+/).filter(s => s !== '');
+    let readings = hanViet ? hanViet.split(' ') : [];
+
+    if (chars.length !== syllables.length) {
+        // cannot align characters and syllables: show the whole word in one cell
+        let parts = syllables.map(pinyinSyllable).filter(p => p.text !== '');
+        let pinyinHtml = parts.map(p => (showToneColors && p.tone)
+            ? '<span class="tone' + p.tone + '">' + p.html + '</span>'
+            : p.html).join(' ');
+        return {
+            html: makeCellHtml(word, pinyinHtml, '', '', ''),
+            pinyin: parts.map(p => p.text).join(' '),
+            hanViet: ''
+        };
+    }
+
+    let html = '';
+    let pinyin = [];
+    let hanVietText = [];
+    for (let i = 0; i < chars.length; i++) {
+        let p = pinyinSyllable(syllables[i]);
+        let toneClass = (showToneColors && p.tone) ? 'tone' + p.tone : '';
+        pinyin.push(p.text);
+
+        let reading = (readings[i] && readings[i] !== '_') ? readings[i] : '';
+        hanVietText.push(reading);
+
+        html += makeCellHtml(
+            chars[i],
+            config.showPinyin ? p.html : '',
+            config.zhuyin ? zhuyinHtml(syllables[i]) : '',
+            config.showHanViet ? reading : '',
+            toneClass
+        );
+    }
+
+    return {
+        html: html,
+        pinyin: pinyin.filter(s => s !== '').join(' '),
+        hanViet: hanVietText.filter(s => s !== '').join(' ')
+    };
+}
+
+function makeCellHtml(hanzi, pinyinHtml, zhuyin, hanViet, toneClass) {
+    let html = '<span class="ht-cell">';
+    if (config.showPinyin) {
+        html += '<span class="ht-py ' + toneClass + '">' + pinyinHtml + '</span>';
+    }
+    html += '<span class="ht-hz">' + hanzi + '</span>';
+    if (zhuyin) {
+        html += '<span class="ht-zy ' + toneClass + '">' + zhuyin + '</span>';
+    }
+    if (config.showHanViet) {
+        html += '<span class="ht-hv">' + hanViet + '</span>';
+    }
+    html += '</span>';
+    return html;
+}
+
+// 'xiu1' -> {html: 'xiu&#772;', text: 'xiū', tone: '1'}, also handles 'r5', 'A', '·', ...
+function pinyinSyllable(syllable) {
+    if (syllable === 'r5') {
+        return { html: 'r', text: 'r', tone: '5' };
+    }
+    let m = /[1-5]$/.test(syllable) ? parse(syllable) : null;
+    if (!m) {
+        // letters, punctuation and other non-pinyin tokens
+        let s = /^[A-Za-z]+[1-5]?$/.test(syllable) ? syllable.replace(/[1-5]$/, '') : '';
+        return { html: s, text: s, tone: '' };
+    }
+    let t = tonify(m[2], m[4]);
+    return { html: m[1] + t[0] + m[3], text: m[1] + t[1] + m[3], tone: m[4] };
+}
+
+// Vertical zhuyin: one symbol per line, tone mark on the right (˙ on top)
+function zhuyinHtml(syllable) {
+    let parts = /[1-5]$/.test(syllable) ? globalThis.numericPinyin2ZhuyinParts(syllable) : null;
+    if (!parts) {
+        return '';
+    }
+    let [symbols, toneMark] = parts;
+    let html = '';
+    if (toneMark === '˙') {
+        html += '<span class="ht-zy-neutral">' + toneMark + '</span>';
+    }
+    for (let symbol of symbols) {
+        html += '<span>' + symbol + '</span>';
+    }
+    if (toneMark && toneMark !== '˙') {
+        html += '<span class="ht-zy-tone">' + toneMark + '</span>';
+    }
     return html;
 }
 
@@ -1013,105 +902,32 @@ function tonify(vowels, tone) {
     return [html, text];
 }
 
-function pinyinAndZhuyin(syllables, showToneColors, pinyinClass) {
-    let text = '';
-    let html = '';
-    let zhuyin = '';
-    let a = syllables.split(/[\s·]+/);
-    for (let i = 0; i < a.length; i++) {
-        let syllable = a[i];
-
-        // ',' in pinyin
-        if (syllable === ',') {
-            html += ' ,';
-            text += ' ,';
-            continue;
-        }
-
-        if (i > 0) {
-            html += '&nbsp;';
-            text += ' ';
-            zhuyin += '&nbsp;';
-        }
-        if (syllable === 'r5') {
-            if (showToneColors) {
-                html += '<span class="' + pinyinClass + ' tone5">r</span>';
-            } else {
-                html += '<span class="' + pinyinClass + '">r</span>';
-            }
-            text += 'r';
-            continue;
-        }
-        if (syllable === 'xx5') {
-            if (showToneColors) {
-                html += '<span class="' + pinyinClass + ' tone5">??</span>';
-            } else {
-                html += '<span class="' + pinyinClass + '">??</span>';
-            }
-            text += '??';
-            continue;
-        }
-        let m = parse(syllable);
-        if (showToneColors) {
-            html += '<span class="' + pinyinClass + ' tone' + m[4] + '">';
-        } else {
-            html += '<span class="' + pinyinClass + '">';
-        }
-        let t = tonify(m[2], m[4]);
-        html += m[1] + t[0] + m[3];
-        html += '</span>';
-        text += m[1] + t[1] + m[3];
-
-        let zhuyinClass = 'w-zhuyin';
-        if (config.fontSize === 'small') {
-            zhuyinClass += '-small';
-        }
-
-        zhuyin += '<span class="tone' + m[4] + ' ' + zhuyinClass + '">'
-            + globalThis.numericPinyin2Zhuyin(syllable) + '</span>';
-    }
-    return [html, text, zhuyin];
-}
-
 let miniHelp = `
-    <span style="font-weight: bold;">Zhongwen Chinese-English Dictionary</span><br><br>
-    <p>Keyboard shortcuts:<p>
+    <span style="font-weight: bold;">Hán Thông – Từ điển Trung–Việt</span><br><br>
+    <p>Phím tắt:<p>
     <table style="margin: 10px;" cellspacing=5 cellpadding=5>
-    <tr><td><b>n&nbsp;:</b></td><td>&nbsp;Next word</td></tr>
-    <tr><td><b>b&nbsp;:</b></td><td>&nbsp;Previous character</td></tr>
-    <tr><td><b>m&nbsp;:</b></td><td>&nbsp;Next character</td></tr>
+    <tr><td><b>n&nbsp;:</b></td><td>&nbsp;Từ tiếp theo</td></tr>
+    <tr><td><b>b&nbsp;:</b></td><td>&nbsp;Chữ phía trước</td></tr>
+    <tr><td><b>m&nbsp;:</b></td><td>&nbsp;Chữ tiếp theo</td></tr>
     <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>a&nbsp;:</b></td><td>&nbsp;Alternate pop-up location</td></tr>
-    <tr><td><b>y&nbsp;:</b></td><td>&nbsp;Move pop-up location down</td></tr>
-    <tr><td><b>x&nbsp;:</b></td><td>&nbsp;Move pop-up location up</td></tr>
+    <tr><td><b>a&nbsp;:</b></td><td>&nbsp;Đổi vị trí cửa sổ tra từ</td></tr>
+    <tr><td><b>y&nbsp;:</b></td><td>&nbsp;Dời cửa sổ xuống</td></tr>
+    <tr><td><b>x&nbsp;:</b></td><td>&nbsp;Dời cửa sổ lên</td></tr>
     <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>c&nbsp;:</b></td><td>&nbsp;Copy translation to clipboard</td></tr>
+    <tr><td><b>c&nbsp;:</b></td><td>&nbsp;Sao chép kết quả tra từ</td></tr>
     <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>r&nbsp;:</b></td><td>&nbsp;Remember word by adding it to the built-in word list</td></tr>
+    <tr><td><b>r&nbsp;:</b></td><td>&nbsp;Lưu từ vào danh sách từ vựng</td></tr>
     <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>Alt w&nbsp;:</b></td><td>&nbsp;Show the built-in word list in a new tab</td></tr>
-    <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>s&nbsp;:</b></td><td>&nbsp;Add word to Skritter queue</td></tr>
-    <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    </table>
-    Look up selected text in online resources:
-    <table style="margin: 10px;" cellspacing=5 cellpadding=5>
-    <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>Alt + 1 :</b></td><td>&nbsp;LINE Dict</td></tr>
-    <tr><td><b>Alt + 2 :</b></td><td>&nbsp;Forvo</td></tr>
-    <tr><td><b>Alt + 3 :</b></td><td>&nbsp;Dict.cn</td></tr>
-    <tr><td><b>Alt + 4&nbsp;:</b></td><td>&nbsp;iCIBA</td></tr>
-    <tr><td><b>Alt + 5&nbsp;:</b></td><td>&nbsp;MDBG</td></tr>
-    <tr><td><b>Alt + 6&nbsp;:</b></td><td>&nbsp;Reverso</td></tr>
-    <tr><td><b>Alt + 7&nbsp;:</b></td><td>&nbsp;MoE Dict</td></tr>
-    <tr><td><b>&nbsp;</b></td><td>&nbsp;</td></tr>
-    <tr><td><b>t&nbsp;:</b></td><td>&nbsp;Tatoeba</td></tr>
+    <tr><td><b>Alt w&nbsp;:</b></td><td>&nbsp;Mở danh sách từ vựng trong tab mới</td></tr>
     </table>`;
 
 // event listener
 chrome.runtime.onMessage.addListener(
-    function (request) {
+    function (request, sender, sendResponse) {
         switch (request.type) {
+            case 'ping':
+                sendResponse(true);
+                break;
             case 'enable':
                 enableTab();
                 break;

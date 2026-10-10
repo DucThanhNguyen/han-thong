@@ -1,3 +1,27 @@
+### Hán Thông
+
+Hán Thông là bản phát triển tiếp (fork) của tiện ích Zhongwen, dành cho người Việt học
+tiếng Trung. Mã nguồn được phát hành theo giấy phép GNU GPL phiên bản 2 trở lên,
+giống như Zhongwen.
+
+Dữ liệu và font chữ đi kèm:
+
+* Nghĩa tiếng Việt: CVDICT của Phong Phan, bản dịch tiếng Việt của CC-CEDICT,
+  giấy phép CC BY-SA 4.0 (https://github.com/ph0ngp/CVDICT)
+
+* Âm Hán-Việt theo pinyin: hanviet-pinyin-wordlist của Phong Phan,
+  giấy phép MIT (https://github.com/ph0ngp/hanviet-pinyin-wordlist)
+
+* Từ chưa có trong CVDICT (chỉ dùng chữ Hán và pinyin): CC-CEDICT,
+  giấy phép CC BY-SA 4.0 (https://www.mdbg.net/chinese/dictionary?page=cedict)
+
+* Font chữ Khải: LXGW WenKai (霞鹜文楷) của LXGW, giấy phép SIL Open Font
+  License 1.1 (https://github.com/lxgw/LxgwWenKai). Bản đi kèm chỉ chứa một
+  phần các chữ; xem fonts/OFL.txt.
+
+Từ điển gộp trong data/dict.u8 được sinh từ các nguồn trên bằng
+tools/build-dict.mjs và cũng được phân phối theo giấy phép CC BY-SA 4.0.
+
 ### Contributors
 
 The Zhongwen Chrome extension was written by Christian Schiller with
