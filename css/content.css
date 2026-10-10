@@ -156,6 +156,11 @@
   opacity: 0.7;
 }
 
+#zhongwen-window .ht-def .ht-cl {
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
 #zhongwen-window .ht-nodef {
   font-style: italic;
   opacity: 0.6;

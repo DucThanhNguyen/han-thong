@@ -724,24 +724,35 @@ function makeHtml(result, showToneColors) {
 
         // Definition
 
-        let translation = def.replace(/\//g, ' ◆ ');
-        let senses = def === '' ? [] : def.split('/');
+        // references to other words in the same character style as the word shown
+        let useTraditional = word === trad && trad !== simp;
+        let senses = def === '' ? [] : def.split('/').map(sense => formatSense(sense, useTraditional));
+        let meanings = senses.filter(sense => !sense.classifiers).map(sense => sense.text);
+        let classifiers = senses.filter(sense => sense.classifiers).map(sense => sense.classifiers);
+
         let maxSenses = Number(config.maxSenses);
-        let shown = senses.slice(0, maxSenses > 0 ? maxSenses : senses.length).join(' ◆ ');
-        if (shown.length < translation.length) {
-            shown += ' ◆ &hellip;';
-        }
+        let shown = meanings.slice(0, maxSenses > 0 ? maxSenses : meanings.length);
+
         html += '<div class="ht-def">';
         if (otherWord) {
             html += '<div class="ht-other">' + otherWord + '</div>';
         }
-        if (translation) {
-            html += '<div class="ht-mean">' + shown + '</div>';
-        } else {
+        if (shown.length > 0) {
+            html += '<div class="ht-mean">' + shown.map(escapeHtml).join(' ◆ ') +
+                (shown.length < meanings.length ? ' ◆ &hellip;' : '') + '</div>';
+        }
+        if (classifiers.length > 0) {
+            html += '<div class="ht-cl">Lượng từ: ' + escapeHtml(classifiers.join(', ')) + '</div>';
+        }
+        if (senses.length === 0) {
             html += '<div class="ht-nodef">Chưa có nghĩa tiếng Việt</div>';
         }
 
         html += '</div>';
+
+        let translation = meanings
+            .concat(classifiers.length > 0 ? ['lượng từ: ' + classifiers.join(', ')] : [])
+            .join(' ◆ ');
 
         texts[i] = [simp, trad, w.pinyin, translation, w.hanViet];
     }
@@ -753,6 +764,31 @@ function makeHtml(result, showToneColors) {
     savedSearchResults = texts;
 
     return html;
+}
+
+// 'LT:家[jia1],個|个[ge4]' -> {classifiers: '家 jiā, 个 gè'}
+// 'xem 開金|开金[kai1 jin1]' -> {text: 'xem 开金 kāi jīn'}
+// 'cũng đọc là [pou1]' -> {text: 'cũng đọc là pōu'}
+function formatSense(sense, useTraditional) {
+    let text = sense.trim().replace(/([\p{Script=Han}A-Za-z0-9·〇]+)(?:\|([\p{Script=Han}A-Za-z0-9·〇]+))?\[([^\]]*)\]/gu,
+        (match, first, second, numericPinyin) => {
+            let word = (second && !useTraditional) ? second : first;
+            let pinyin = numericPinyin.split(/\s+/).map(s => pinyinSyllable(s).text).filter(s => s !== '').join(' ');
+            return pinyin ? word + ' ' + pinyin : word;
+        })
+        // pinyin without characters: 'cũng đọc là [pou1]' -> 'cũng đọc là pōu'
+        .replace(/\[((?:[A-Za-z:]+[1-5]\s*)+)\]/g,
+            (match, numericPinyin) => numericPinyin.trim().split(/\s+/).map(s => pinyinSyllable(s).text).join(' '));
+
+    let m = text.match(/^(?:LT|lượng từ)\s*:\s*(.*)$/i);
+    if (m) {
+        return { classifiers: m[1].split(/\s*[,，、]\s*/).filter(s => s !== '').join(', ') };
+    }
+    return { text: text };
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 // One cell per character: pinyin above, zhuyin on the right, Hán-Việt below.
