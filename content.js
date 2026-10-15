@@ -767,7 +767,13 @@ function makeHtml(result, showToneColors) {
             html += '<div class="ht-cl">Lượng từ: ' + escapeHtml(classifiers.join(', ')) + '</div>';
         }
         if (senses.length === 0) {
-            html += '<div class="ht-nodef">Chưa có nghĩa tiếng Việt</div>';
+            // no Vietnamese meaning yet: fall back to the Hán-Việt reading,
+            // unless some characters have none ('_')
+            if (w.hanViet && !hanViet.split(' ').includes('_')) {
+                html += '<div class="ht-mean">' + escapeHtml(w.hanViet) + '</div>';
+            } else {
+                html += '<div class="ht-nodef">Chưa có nghĩa tiếng Việt</div>';
+            }
         }
 
         html += '</div>';
