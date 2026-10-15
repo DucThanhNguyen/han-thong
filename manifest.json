@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Hán Thông: Từ điển Trung–Việt",
   "short_name": "Hán Thông",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Nguyễn Đức Thành",
   "homepage_url": "https://github.com/DucThanhNguyen/han-thong",
   "description": "Rê chuột lên chữ Hán để xem pinyin, chú âm, âm Hán-Việt và nghĩa tiếng Việt. Dựa trên Zhongwen của Christian Schiller.",

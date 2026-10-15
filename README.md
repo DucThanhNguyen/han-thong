@@ -19,7 +19,7 @@ của Christian Schiller.
 
 - Hỗ trợ cả chữ giản thể và phồn thể.
 - Hiện từ khớp dài nhất với các nghĩa chính, kèm âm đọc và nghĩa của từng chữ trong từ.
-- Tô màu pinyin và chú âm theo thanh điệu, ba cỡ chữ, năm màu nền.
+- Tô màu pinyin và chú âm theo thanh điệu; cỡ chữ Hán 20–64 px (pinyin, chú âm, Hán-Việt theo tỷ lệ), bốn màu chữ Hán, sáu nền (kể cả tự động sáng/tối theo hệ thống).
 - Bật/tắt bằng một cú nhấp vào biểu tượng trên thanh công cụ.
 - Tùy chọn chỉ tra từ khi giữ phím `Shift`, `Ctrl` hoặc `Alt`, cho người đã đọc khá và chỉ thỉnh thoảng cần tra.
 - Phím tắt để chuyển sang từ/chữ tiếp theo (`n`, `m`, `b`); bảng phím tắt hiện ra mỗi khi bật tiện ích.
@@ -33,6 +33,8 @@ của Christian Schiller.
 | Âm Hán-Việt theo pinyin | [hanviet-pinyin-wordlist](https://github.com/ph0ngp/hanviet-pinyin-wordlist) (Phong Phan) | MIT |
 | Từ chưa có trong CVDICT | [CC-CEDICT](https://cc-cedict.org/wiki/) | CC BY-SA 4.0 |
 | Font chữ Khải | [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) (bản rút gọn) | SIL OFL 1.1 |
+| Font chú âm | [Noto Sans TC](https://github.com/notofonts/noto-cjk) (chỉ ký hiệu chú âm và dấu thanh) | SIL OFL 1.1 |
+| Nghĩa bổ sung, sửa âm Hán-Việt | `data-src/hanthong.u8`, `data-src/hanthong-hanviet.csv` | CC BY-SA 4.0 |
 
 Nghĩa tiếng Việt trong CVDICT phần lớn được dịch tự động bằng AI rồi rà soát lại, nên vẫn có thể còn sót lỗi.
 
