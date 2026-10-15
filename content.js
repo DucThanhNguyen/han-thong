@@ -263,6 +263,17 @@ function isEditable(elem) {
 }
 
 function onMouseMove(mouseMove, keyHeld = isPopupKeyHeld(mouseMove)) {
+    // the mouse is on the popup: keep it open to read it, and don't look up
+    // the popup's own text or the page under it
+    let popup = document.getElementById('zhongwen-window');
+    if (popup && popup.contains(mouseMove.target)) {
+        if (timer) {
+            clearTimeout(timer);
+            timer = null;
+        }
+        return;
+    }
+
     if (mouseMove.target.nodeName === 'TEXTAREA' || mouseMove.target.nodeName === 'INPUT'
         || mouseMove.target.nodeName === 'DIV') {
 
