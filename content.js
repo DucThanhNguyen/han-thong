@@ -94,6 +94,10 @@ let savedSelStartOffset = 0;
 
 let savedSelEndList = [];
 
+// Chrome's zoom factor for this tab; the popup is scaled by its inverse so
+// that it keeps the same size at any page zoom
+let zoomFactor = 1;
+
 function enableTab() {
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('keydown', onKeyDown);
@@ -439,6 +443,19 @@ function getTextFromSingleNode(node, selEndList, maxLength) {
     }
 }
 
+function setZoomFactor(factor) {
+    zoomFactor = factor > 0 ? factor : 1;
+    let popup = document.getElementById('zhongwen-window');
+    if (popup) {
+        applyZoom(popup);
+    }
+}
+
+function applyZoom(popup) {
+    popup.style.transformOrigin = '0 0';
+    popup.style.transform = zoomFactor === 1 ? '' : `scale(${1 / zoomFactor})`;
+}
+
 function showPopup(html, elem, x, y, looseWidth) {
 
     if (!x || !y) {
@@ -453,10 +470,13 @@ function showPopup(html, elem, x, y, looseWidth) {
         document.documentElement.appendChild(popup);
     }
 
-    popup.style.width = 'auto';
+    // max-content: the width must not depend on the space left of the
+    // position, which is too small once the popup is scaled for the page zoom
+    popup.style.width = 'max-content';
     popup.style.height = 'auto';
     popup.style.maxWidth = (looseWidth ? '' : '600px');
     popup.className = `background-${config.background}`;
+    applyZoom(popup);
 
     popup.innerHTML = html;
 
@@ -465,8 +485,10 @@ function showPopup(html, elem, x, y, looseWidth) {
         popup.style.left = '0px';
         popup.style.display = '';
 
-        let pW = popup.offsetWidth;
-        let pH = popup.offsetHeight;
+        // on-screen size, after scaling for the page zoom
+        let rect = popup.getBoundingClientRect();
+        let pW = rect.width;
+        let pH = rect.height;
 
         if (pW <= 0) {
             pW = 200;
@@ -503,9 +525,9 @@ function showPopup(html, elem, x, y, looseWidth) {
                 y -= elem.offsetTop;
             }
 
-            if (x + popup.offsetWidth > window.innerWidth) {
+            if (x + pW > window.innerWidth) {
                 // too much to the right, go left
-                x -= popup.offsetWidth + 5;
+                x -= pW + 5;
                 if (x < 0) {
                     x = 0;
                 }
@@ -965,7 +987,13 @@ chrome.runtime.onMessage.addListener(
                 sendResponse(true);
                 break;
             case 'enable':
+                if (request.zoomFactor) {
+                    setZoomFactor(request.zoomFactor);
+                }
                 enableTab();
+                break;
+            case 'zoom':
+                setZoomFactor(request.zoomFactor);
                 break;
             case 'disable':
                 disableTab();

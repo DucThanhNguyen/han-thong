@@ -191,14 +191,30 @@ async function ensureContentScripts(tabId) {
 }
 
 function enableTab(tabId) {
+    chrome.tabs.getZoom(tabId, zoomFactor => {
+        chrome.tabs.sendMessage(tabId, {
+            'type': 'enable',
+            'zoomFactor': chrome.runtime.lastError ? 1 : zoomFactor
+        }, () => {
+            if (chrome.runtime.lastError) {
+                // ignore
+            }
+        });
+    });
+}
+
+// The popup keeps the same size at any page zoom: tell the content script the
+// tab's zoom so that it can scale the popup back.
+chrome.tabs.onZoomChange.addListener(({tabId, newZoomFactor}) => {
     chrome.tabs.sendMessage(tabId, {
-        'type': 'enable'
+        'type': 'zoom',
+        'zoomFactor': newZoomFactor
     }, () => {
         if (chrome.runtime.lastError) {
             // ignore
         }
     });
-}
+});
 
 function showActiveBadge() {
     chrome.action.setBadgeBackgroundColor({
