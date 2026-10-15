@@ -5,6 +5,7 @@ globalThis.defaultConfig = {
     fontSize: 'medium',
     hanziFont: 'kai',
     maxSenses: 4,
+    popupKey: 'none',
     saveToWordList: 'firstEntryOnly',
     showHanViet: true,
     showPinyin: true,

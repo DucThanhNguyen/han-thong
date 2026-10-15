@@ -94,6 +94,10 @@ let savedSelStartOffset = 0;
 
 let savedSelEndList = [];
 
+// last mouse position, to look up the word under the mouse when the popup key
+// is pressed without moving the mouse
+let lastMouseMove = null;
+
 // Chrome's zoom factor for this tab; the popup is scaled by its inverse so
 // that it keeps the same size at any page zoom
 let zoomFactor = 1;
@@ -116,6 +120,16 @@ function disableTab() {
 }
 
 function onKeyDown(keyDown) {
+
+    if (isPopupKey(keyDown)) {
+        // look up the word under the mouse without waiting for a mouse move
+        if (lastMouseMove && !keyDown.repeat && !isEditable(keyDown.target)) {
+            clientX = clientY = null;
+            savedTarget = null;
+            onMouseMove(lastMouseMove, true);
+        }
+        return;
+    }
 
     if (keyDown.ctrlKey || keyDown.metaKey) {
         return;
@@ -226,7 +240,29 @@ function onKeyDown(keyDown) {
     }
 }
 
-function onMouseMove(mouseMove) {
+// With the "popupKey" option, words are looked up only while that key is held
+function isPopupKeyHeld(event) {
+    switch (config.popupKey) {
+        case 'shift':
+            return event.shiftKey;
+        case 'ctrl':
+            return event.ctrlKey;
+        case 'alt':
+            return event.altKey;
+        default:
+            return true;
+    }
+}
+
+function isPopupKey(keyDown) {
+    return {shift: 'Shift', ctrl: 'Control', alt: 'Alt'}[config.popupKey] === keyDown.key;
+}
+
+function isEditable(elem) {
+    return elem.nodeName === 'INPUT' || elem.nodeName === 'TEXTAREA' || elem.isContentEditable;
+}
+
+function onMouseMove(mouseMove, keyHeld = isPopupKeyHeld(mouseMove)) {
     if (mouseMove.target.nodeName === 'TEXTAREA' || mouseMove.target.nodeName === 'INPUT'
         || mouseMove.target.nodeName === 'DIV') {
 
@@ -255,6 +291,24 @@ function onMouseMove(mouseMove) {
     }
     clientX = mouseMove.clientX;
     clientY = mouseMove.clientY;
+
+    lastMouseMove = {
+        target: mouseMove.target,
+        clientX: mouseMove.clientX,
+        clientY: mouseMove.clientY,
+        altKey: mouseMove.altKey
+    };
+
+    if (!keyHeld) {
+        if (timer) {
+            clearTimeout(timer);
+            timer = null;
+        }
+        savedTarget = null;
+        savedRangeNode = null;
+        hidePopupIfMovedAway(mouseMove);
+        return;
+    }
 
     let range;
     let rangeNode;
@@ -312,6 +366,10 @@ function onMouseMove(mouseMove) {
         return;
     }
 
+    hidePopupIfMovedAway(mouseMove);
+}
+
+function hidePopupIfMovedAway(mouseMove) {
     // Don't close just because we moved from a valid pop-up slightly over to a place with nothing.
     let dx = popX - mouseMove.clientX;
     let dy = popY - mouseMove.clientY;

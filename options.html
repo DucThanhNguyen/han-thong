@@ -149,6 +149,26 @@
     <h2 class="mb-3">Tùy chọn khác</h2>
 
     <div class="form-group mb-4">
+        <label>Chỉ tra từ khi giữ phím (để không hiện cửa sổ tra từ ở những chữ đã biết)</label>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="popupKeyNone" name="popupKey" class="custom-control-input" value="none">
+            <label class="custom-control-label" for="popupKeyNone">Không, luôn tra từ khi rê chuột</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="popupKeyShift" name="popupKey" class="custom-control-input" value="shift">
+            <label class="custom-control-label" for="popupKeyShift">Giữ <kbd>Shift</kbd></label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="popupKeyCtrl" name="popupKey" class="custom-control-input" value="ctrl">
+            <label class="custom-control-label" for="popupKeyCtrl">Giữ <kbd>Ctrl</kbd></label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="popupKeyAlt" name="popupKey" class="custom-control-input" value="alt">
+            <label class="custom-control-label" for="popupKeyAlt">Giữ <kbd>Alt</kbd> (<kbd>Option</kbd> trên Mac)</label>
+        </div>
+    </div>
+
+    <div class="form-group mb-4">
         <label>Lưu vào danh sách từ vựng (phím r)</label>
         <div class="custom-control custom-radio">
             <input type="radio" id="saveToWordListAllEntries" name="saveToWordList"

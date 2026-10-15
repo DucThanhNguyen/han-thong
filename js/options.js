@@ -11,7 +11,7 @@
 let config = globalThis.defaultConfig;
 
 // options shown as radio buttons (value attribute) and as checkboxes
-const radioOptions = ['background', 'fontSize', 'hanziFont', 'maxSenses', 'saveToWordList', 'simpTrad', 'toneColors'];
+const radioOptions = ['background', 'fontSize', 'hanziFont', 'maxSenses', 'popupKey', 'saveToWordList', 'simpTrad', 'toneColors'];
 const checkboxOptions = ['showPinyin', 'zhuyin', 'showHanViet'];
 
 chrome.storage.local.get(null, storedConfig => {

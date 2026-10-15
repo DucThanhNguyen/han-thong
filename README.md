@@ -21,6 +21,7 @@ của Christian Schiller.
 - Chỉ hiện từ khớp dài nhất và các nghĩa chính, để đọc nhanh mà không bị rối mắt.
 - Tô màu pinyin và chú âm theo thanh điệu, ba cỡ chữ, năm màu nền.
 - Bật/tắt bằng một cú nhấp vào biểu tượng trên thanh công cụ.
+- Tùy chọn chỉ tra từ khi giữ phím `Shift`, `Ctrl` hoặc `Alt`, cho người đã đọc khá và chỉ thỉnh thoảng cần tra.
 - Phím tắt để chuyển sang từ/chữ tiếp theo (`n`, `m`, `b`); bảng phím tắt hiện ra mỗi khi bật tiện ích.
 - Danh sách từ vựng tích hợp (phím `r`, mở bằng `Alt+W`), có thể xuất ra file để nhập vào Anki.
 
