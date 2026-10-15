@@ -55,6 +55,18 @@ let dict;
 
 chrome.runtime.onInstalled.addListener(() => {
 
+    // options stored by earlier versions: background colours and font sizes
+    // that are no longer offered
+    chrome.storage.local.get(Object.keys(globalThis.legacyOptions), stored => {
+        let changes = {};
+        for (let [option, values] of Object.entries(globalThis.legacyOptions)) {
+            if (stored[option] in values) {
+                changes[option] = values[stored[option]];
+            }
+        }
+        chrome.storage.local.set(changes);
+    });
+
     chrome.contextMenus.create(
         {
             id: 'wordlistMenuItem',

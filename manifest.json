@@ -54,7 +54,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "fonts/HanThongKai.woff2"
+        "fonts/HanThongKai.woff2",
+        "fonts/HanThongZhuyin.woff2"
       ],
       "matches": [
         "<all_urls>"

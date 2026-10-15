@@ -5,6 +5,27 @@
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="images/icon128.png"/>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <style>
+        @font-face {
+            font-family: 'Han Thong Kai';
+            src: url('fonts/HanThongKai.woff2') format('woff2');
+        }
+        .ht-sample, .ht-paper {
+            font-family: 'Han Thong Kai', 'Kaiti SC', 'KaiTi', serif;
+            font-size: 20px;
+            line-height: 1;
+        }
+        .ht-paper {
+            display: inline-grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            margin-right: 4px;
+            border-radius: 7px;
+            box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.35);
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -61,50 +82,60 @@
     </div>
 
     <div class="form-group mb-4">
-        <label>Cỡ chữ</label>
+        <label for="fontSize">Cỡ chữ Hán (pinyin, chú âm và âm Hán-Việt theo tỷ lệ cỡ chữ Hán)</label>
+        <div class="d-flex align-items-center" style="max-width: 420px">
+            <span class="text-muted mr-2" style="font-size: 12px">A</span>
+            <input type="range" class="custom-range" id="fontSize" name="fontSize">
+            <span class="text-muted ml-2" style="font-size: 18px">A</span>
+            <span class="text-muted ml-3 text-nowrap" style="min-width: 3.5em"><span id="fontSizeValue"></span> px</span>
+        </div>
+    </div>
+
+    <div class="form-group mb-4">
+        <label>Màu chữ Hán</label>
         <div class="custom-control custom-radio">
-            <input type="radio" id="fontSizeSmall" name="fontSize" class="custom-control-input"
-                   value="small">
-            <label class="custom-control-label" for="fontSizeSmall">Nhỏ</label>
+            <input type="radio" id="hanziColorInk" name="hanziColor" class="custom-control-input" value="ink">
+            <label class="custom-control-label" for="hanziColorInk"><span class="ht-sample" style="color: #1d1f23">中</span><span class="ht-sample" style="color: #1d1f23">文</span> Mực đen</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="fontSizeMedium" name="fontSize" class="custom-control-input"
-                   value="medium">
-            <label class="custom-control-label" for="fontSizeMedium">Vừa</label>
+            <input type="radio" id="hanziColorBlue" name="hanziColor" class="custom-control-input" value="blue">
+            <label class="custom-control-label" for="hanziColorBlue"><span class="ht-sample" style="color: #34558b">中</span><span class="ht-sample" style="color: #34558b">文</span> Mực xanh</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="fontSizeLarge" name="fontSize" class="custom-control-input"
-                   value="large">
-            <label class="custom-control-label" for="fontSizeLarge">Lớn</label>
+            <input type="radio" id="hanziColorBrown" name="hanziColor" class="custom-control-input" value="brown">
+            <label class="custom-control-label" for="hanziColorBrown"><span class="ht-sample" style="color: #6e3b1f">中</span><span class="ht-sample" style="color: #6e3b1f">文</span> Mực nâu</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="hanziColorTone" name="hanziColor" class="custom-control-input" value="tone">
+            <label class="custom-control-label" for="hanziColorTone"><span class="ht-sample" style="color: #d23a30">中</span><span class="ht-sample" style="color: #ac5d12">文</span> Theo thanh điệu</label>
         </div>
     </div>
 
     <div class="form-group mb-4">
         <label>Màu nền</label>
         <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundWhite" name="background" class="custom-control-input"
-                   value="white">
-            <label class="custom-control-label" for="backgroundWhite">Trắng</label>
+            <input type="radio" id="backgroundAuto" name="background" class="custom-control-input" value="auto">
+            <label class="custom-control-label" for="backgroundAuto"><span class="ht-paper" style="background: linear-gradient(135deg, #fcfcfa 50%, #15171a 50%); color: #8a8e96">文</span> Tự động (sáng hoặc tối theo hệ thống)</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundYellow" name="background" class="custom-control-input"
-                   value="yellow">
-            <label class="custom-control-label" for="backgroundYellow">Vàng</label>
+            <input type="radio" id="backgroundLight" name="background" class="custom-control-input" value="light">
+            <label class="custom-control-label" for="backgroundLight"><span class="ht-paper" style="background: #fcfcfa; color: #1d1f23">文</span> Trắng</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundLightBlue" name="background"
-                   class="custom-control-input" value="lightblue">
-            <label class="custom-control-label" for="backgroundLightBlue">Xanh nhạt</label>
+            <input type="radio" id="backgroundSepia" name="background" class="custom-control-input" value="sepia">
+            <label class="custom-control-label" for="backgroundSepia"><span class="ht-paper" style="background: #f4ecdc; color: #3a2e22">文</span> Giấy</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundBlue" name="background" class="custom-control-input"
-                   value="blue">
-            <label class="custom-control-label" for="backgroundBlue">Xanh dương</label>
+            <input type="radio" id="backgroundBlue" name="background" class="custom-control-input" value="blue">
+            <label class="custom-control-label" for="backgroundBlue"><span class="ht-paper" style="background: #e6eef5; color: #1e2b38">文</span> Xanh</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundBlack" name="background" class="custom-control-input"
-                   value="black">
-            <label class="custom-control-label" for="backgroundBlack">Đen</label>
+            <input type="radio" id="backgroundGray" name="background" class="custom-control-input" value="gray">
+            <label class="custom-control-label" for="backgroundGray"><span class="ht-paper" style="background: #e4e4e1; color: #26282b">文</span> Xám</label>
+        </div>
+        <div class="custom-control custom-radio">
+            <input type="radio" id="backgroundDark" name="background" class="custom-control-input" value="dark">
+            <label class="custom-control-label" for="backgroundDark"><span class="ht-paper" style="background: #15171a; color: #e7e5e0">文</span> Tối</label>
         </div>
     </div>
 

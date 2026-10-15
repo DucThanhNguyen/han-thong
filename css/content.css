@@ -6,6 +6,7 @@
   border: none !important;
   margin: 0px;
   padding: 0px;
+  color: inherit;
   letter-spacing: normal;
   text-align: left;
   text-decoration: none;
@@ -13,6 +14,7 @@
   text-transform: none;
   white-space: normal;
   word-spacing: normal;
+  font-style: normal;
   font-weight: normal;
   font-size: 12px;
   font-family: Tahoma, Geneva, sans-serif;
@@ -20,17 +22,113 @@
   line-height: initial;
 }
 
+/* Popup frame as in the Hán Thông app: a 14 px radius, a hairline border and a
+   soft floating shadow */
 #zhongwen-window {
   position: absolute;
   z-index: 999999999;
-  border: 1px solid #d0d0d0 !important;
-  padding: 4px;
-  background: #e6f4ff;
+  border: 1px solid var(--rule) !important;
+  padding: 12px 14px;
+  background: var(--surface);
+  color: var(--ink);
   top: 5px;
   left: 5px;
   min-width: 100px;
-  border-radius: 5px;
-  box-shadow: 10px 10px 5px -5px #999999;
+  border-radius: 14px;
+  box-shadow: var(--shadow-float);
+}
+
+/* Backgrounds: the reading papers of the Hán Thông app (light, sepia, blue,
+   gray, dark), with their ink, annotation and tone colours. The popup uses
+   the paper's surface colour, like the app's popups. */
+#zhongwen-window.ht-theme-light {
+  --surface: #ffffff;
+  --ink: #1d1f23;
+  --ink-2: #5a5e66;
+  --ink-3: #8a8e96;
+  --rule: #e3e2dd;
+  --shadow-float: 0 14px 34px rgb(29 31 35 / 0.14), 0 2px 6px rgb(29 31 35 / 0.08);
+  --tone-1: #d23a30;
+  --tone-2: #ac5d12;
+  --tone-3: #368142;
+  --tone-4: #2e6cbb;
+  --tone-5: #6f737c;
+  --ink-blue: #34558b;
+  --ink-brown: #6e3b1f;
+}
+
+#zhongwen-window.ht-theme-sepia {
+  --surface: #fbf6ea;
+  --ink: #3a2e22;
+  --ink-2: #6b5b48;
+  --ink-3: #978571;
+  --rule: #ddd0b8;
+  --shadow-float: 0 14px 34px rgb(58 46 34 / 0.2), 0 2px 6px rgb(58 46 34 / 0.1);
+  --tone-1: #b8322a;
+  --tone-2: #9f5611;
+  --tone-3: #467430;
+  --tone-4: #2b5d90;
+  --tone-5: #756656;
+  --ink-blue: #2f4e80;
+  --ink-brown: #64341a;
+}
+
+#zhongwen-window.ht-theme-blue {
+  --surface: #f3f7fb;
+  --ink: #1e2b38;
+  --ink-2: #4a5a6b;
+  --ink-3: #74838f;
+  --rule: #c9d6e2;
+  --shadow-float: 0 14px 34px rgb(30 43 56 / 0.16), 0 2px 6px rgb(30 43 56 / 0.08);
+  --tone-1: #c3342a;
+  --tone-2: #a15711;
+  --tone-3: #32763d;
+  --tone-4: #2d6ab7;
+  --tone-5: #666a72;
+  --ink-blue: #2c4a7c;
+  --ink-brown: #64361c;
+}
+
+#zhongwen-window.ht-theme-gray {
+  --surface: #f0f0ee;
+  --ink: #26282b;
+  --ink-2: #55585e;
+  --ink-3: #7b7e85;
+  --rule: #cdcdc9;
+  --shadow-float: 0 14px 34px rgb(38 40 43 / 0.16), 0 2px 6px rgb(38 40 43 / 0.08);
+  --tone-1: #b93128;
+  --tone-2: #985210;
+  --tone-3: #30713a;
+  --tone-4: #2b65af;
+  --tone-5: #60646b;
+  --ink-blue: #2b4878;
+  --ink-brown: #61341b;
+}
+
+#zhongwen-window.ht-theme-dark {
+  --surface: #1e2125;
+  --ink: #e7e5e0;
+  --ink-2: #a9acb2;
+  --ink-3: #74787f;
+  --rule: #2c3036;
+  --shadow-float: 0 16px 38px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.4);
+  --tone-1: #f0675e;
+  --tone-2: #ee9a4c;
+  --tone-3: #6cbf7a;
+  --tone-4: #6ea6e6;
+  --tone-5: #80848b;
+  --ink-blue: #93b4e6;
+  --ink-brown: #d9a57a;
+}
+
+/* Ink of the Han characters (option hanziColor): the paper's ink by default,
+   dark blue, brown, or each character in the colour of its tone */
+#zhongwen-window.ht-ink-blue {
+  --hz-ink: var(--ink-blue);
+}
+
+#zhongwen-window.ht-ink-brown {
+  --hz-ink: var(--ink-brown);
 }
 
 /* Hán Thông layout: characters with pinyin above, zhuyin on the right and
@@ -41,41 +139,31 @@
   font-display: swap;
 }
 
-#zhongwen-window .ht-small {
-  --ht-hanzi: 32px;
-  --ht-reading: 13px;
-  --ht-zhuyin: 10px;
-  --ht-def: 13px;
+/* Zhuyin: the letters and tone marks of Noto Sans TC, firmer than the Kai
+   font's zhuyin and with long tone marks */
+@font-face {
+  font-family: 'Han Thong Zhuyin';
+  src: url('chrome-extension://__MSG_@@extension_id__/fonts/HanThongZhuyin.woff2') format('woff2');
+  font-display: block;
+  unicode-range: U+02C7, U+02C9-02CB, U+02D9, U+3105-3129;
 }
 
-#zhongwen-window .ht-medium {
-  --ht-hanzi: 44px;
-  --ht-reading: 16px;
-  --ht-zhuyin: 13px;
-  --ht-def: 14px;
-}
-
-#zhongwen-window .ht-large {
-  --ht-hanzi: 56px;
-  --ht-reading: 20px;
-  --ht-zhuyin: 17px;
-  --ht-def: 16px;
-}
-
+/* --hz, the Han character size, is set on .ht-results from the fontSize
+   option; the annotations follow it */
 #zhongwen-window .ht-results {
+  --hz: 32px;
   display: grid;
   grid-template-columns: auto minmax(10em, 24em);
   column-gap: 14px;
-  row-gap: 6px;
+  row-gap: 8px;
   align-items: center;
-  padding: 2px 4px;
 }
 
 #zhongwen-window .ht-word {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 2px 6px;
+  row-gap: 2px;
   max-width: 460px;
 }
 
@@ -89,11 +177,12 @@
 #zhongwen-window .ht-py,
 #zhongwen-window .ht-py *,
 #zhongwen-window .ht-hv {
-  font-size: var(--ht-reading);
+  font-size: calc(var(--hz) * 0.4);
   line-height: 1.3;
   min-height: 1.3em;
   text-align: center;
   white-space: nowrap;
+  color: var(--ink-2);
 }
 
 #zhongwen-window .ht-py {
@@ -106,9 +195,12 @@
 
 #zhongwen-window .ht-hz {
   grid-area: hz;
-  font-size: var(--ht-hanzi);
-  line-height: 1.15;
+  justify-self: center;
+  min-width: 1.18em;
+  font-size: var(--hz);
+  line-height: 1.18;
   text-align: center;
+  color: var(--hz-ink, var(--ink));
 }
 
 #zhongwen-window .ht-kai .ht-hz,
@@ -116,162 +208,112 @@
   font-family: 'Han Thong Kai', 'LXGW WenKai', 'Kaiti SC', 'Kaiti TC', 'STKaiti', 'KaiTi', 'BiauKai', 'DFKai-SB', serif;
 }
 
-/* zhuyin: symbols stacked tightly, tone mark to the right of the last symbol,
-   neutral tone dot on top */
+/* zhuyin: letters stacked on the right of the character, the tone mark right
+   beside the last letter and high, as printed zhuyin has it; the neutral tone
+   dot on top */
 #zhongwen-window .ht-zy,
 #zhongwen-window .ht-zy * {
-  font-family: 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei', 'Noto Sans TC', 'Noto Sans CJK TC', sans-serif;
-  font-size: var(--ht-zhuyin);
-  line-height: 0.95;
+  font-family: 'Han Thong Zhuyin', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  font-size: calc(var(--hz) * 0.3);
+  line-height: 1;
+  color: var(--ink-2);
 }
 
 #zhongwen-window .ht-zy {
   grid-area: zy;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 0.2em;
-  padding-right: 0.55em;
+  margin-left: 0.08em;
+  padding-right: 0.5em;
 }
 
-#zhongwen-window .ht-zy .ht-zy-tone {
+#zhongwen-window .ht-zy .ht-zy-l {
+  position: relative;
+}
+
+#zhongwen-window .ht-zy .ht-zy-t {
   position: absolute;
-  right: 0;
-  bottom: 0.3em;
-}
-
-#zhongwen-window .ht-zy .ht-zy-neutral {
-  line-height: 0.5;
+  left: 100%;
+  top: 0;
+  margin-left: 0.04em;
 }
 
 #zhongwen-window .ht-def,
 #zhongwen-window .ht-def * {
-  font-size: var(--ht-def);
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 #zhongwen-window .ht-def .ht-other {
-  font-size: calc(var(--ht-def) * 1.35);
-  opacity: 0.7;
+  font-size: 19px;
+  color: var(--ink-2);
 }
 
 #zhongwen-window .ht-def .ht-cl {
   margin-top: 2px;
-  opacity: 0.7;
+  color: var(--ink-2);
 }
 
 #zhongwen-window .ht-nodef {
   font-style: italic;
-  opacity: 0.6;
+  color: var(--ink-3);
 }
 
 #zhongwen-window .ht-sep {
   grid-column: 1 / -1;
   height: 1px;
-  background: currentColor !important;
-  opacity: 0.15;
+  background: var(--rule) !important;
 }
 
 #zhongwen-window .ht-more {
   grid-column: 1 / -1;
+  color: var(--ink-3);
 }
 
-/* White Background */
-#zhongwen-window.background-white,
-#zhongwen-window.background-white * {
-  color: #1f1f1f;
-  background: #ffffff;
-}
-
-#zhongwen-window.background-white .ht-hz {
-  color: #34558b;
-}
-
-/* Yellow Background */
-#zhongwen-window.background-yellow,
-#zhongwen-window.background-yellow * {
-  color: #000000;
-  background: #ffffbf;
-}
-
-#zhongwen-window.background-yellow .ht-hz {
-  color: #7070e0;
-}
-
-/* Lightblue Background */
-#zhongwen-window.background-lightblue,
-#zhongwen-window.background-lightblue * {
-  color: #000000;
-  background: #e6f4ff;
-}
-
-#zhongwen-window.background-lightblue .ht-hz {
-  color: #3082bf;
-}
-
-#zhongwen-window.background-lightblue .ht-py,
-#zhongwen-window.background-lightblue .ht-zy,
-#zhongwen-window.background-lightblue .ht-zy * {
-  color: #00b366;
-}
-
-/* Blue Background */
-#zhongwen-window.background-blue,
-#zhongwen-window.background-blue * {
-  color: #ffffff;
-  background: #5c73b8;
-}
-
-#zhongwen-window.background-blue .ht-hz {
-  color: #b7e7ff;
-}
-
-#zhongwen-window.background-blue .ht-py,
-#zhongwen-window.background-blue .ht-zy,
-#zhongwen-window.background-blue .ht-zy * {
-  color: #c0ffc0;
-}
-
-/* Black Background */
-#zhongwen-window.background-black,
-#zhongwen-window.background-black * {
-  color: #ffffff;
-  background: #000000;
-}
-
-#zhongwen-window.background-black .ht-hz {
-  color: #7070e0;
-}
-
-#zhongwen-window.background-black .ht-py,
-#zhongwen-window.background-black .ht-zy,
-#zhongwen-window.background-black .ht-zy * {
-  color: #20a020;
-}
-
-/* Tone Colors (only added when tone colors are enabled) */
+/* Tone colours of pinyin and zhuyin (only added when tone colours are enabled) */
 #zhongwen-window .ht-results .tone1,
 #zhongwen-window .ht-results .tone1 * {
-  color: #ee363e;
+  color: var(--tone-1);
 }
 
 #zhongwen-window .ht-results .tone2,
 #zhongwen-window .ht-results .tone2 * {
-  color: #f47c36;
+  color: var(--tone-2);
 }
 
 #zhongwen-window .ht-results .tone3,
 #zhongwen-window .ht-results .tone3 * {
-  color: #73bb4f;
+  color: var(--tone-3);
 }
 
 #zhongwen-window .ht-results .tone4,
 #zhongwen-window .ht-results .tone4 * {
-  color: #649cd3;
+  color: var(--tone-4);
 }
 
 #zhongwen-window .ht-results .tone5,
 #zhongwen-window .ht-results .tone5 * {
-  color: #a0a0a0;
+  color: var(--tone-5);
+}
+
+/* Han characters in the colour of their tone (hanziColor 'tone') */
+#zhongwen-window.ht-ink-tone .ht-cell[data-tone="1"] > .ht-hz {
+  color: var(--tone-1);
+}
+
+#zhongwen-window.ht-ink-tone .ht-cell[data-tone="2"] > .ht-hz {
+  color: var(--tone-2);
+}
+
+#zhongwen-window.ht-ink-tone .ht-cell[data-tone="3"] > .ht-hz {
+  color: var(--tone-3);
+}
+
+#zhongwen-window.ht-ink-tone .ht-cell[data-tone="4"] > .ht-hz {
+  color: var(--tone-4);
+}
+
+#zhongwen-window.ht-ink-tone .ht-cell[data-tone="5"] > .ht-hz {
+  color: var(--tone-5);
 }

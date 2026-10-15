@@ -19,6 +19,11 @@ Dữ liệu và font chữ đi kèm:
   License 1.1 (https://github.com/lxgw/LxgwWenKai). Bản đi kèm chỉ chứa một
   phần các chữ; xem fonts/OFL.txt.
 
+* Font chú âm: Noto Sans TC của Google và Adobe, giấy phép SIL Open Font
+  License 1.1 (https://github.com/notofonts/noto-cjk). Bản đi kèm
+  (fonts/HanThongZhuyin.woff2, lấy từ ứng dụng Hán Thông) chỉ chứa các ký hiệu
+  chú âm và dấu thanh; xem fonts/NotoSansTC-OFL.txt.
+
 Từ điển gộp trong data/dict.u8 được sinh từ các nguồn trên bằng
 tools/build-dict.mjs và cũng được phân phối theo giấy phép CC BY-SA 4.0.
 

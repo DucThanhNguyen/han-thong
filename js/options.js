@@ -11,7 +11,7 @@
 let config = globalThis.defaultConfig;
 
 // options shown as radio buttons (value attribute) and as checkboxes
-const radioOptions = ['background', 'fontSize', 'hanziFont', 'maxSenses', 'popupKey', 'saveToWordList', 'simpTrad', 'toneColors'];
+const radioOptions = ['background', 'hanziColor', 'hanziFont', 'maxSenses', 'popupKey', 'saveToWordList', 'simpTrad', 'toneColors'];
 const checkboxOptions = ['showPinyin', 'zhuyin', 'showHanViet'];
 
 chrome.storage.local.get(null, storedConfig => {
@@ -33,6 +33,16 @@ function loadVals() {
     checkboxOptions.forEach(option => {
         document.querySelector(`#${option}`).checked = config[option];
     });
+
+    // radio values stored by earlier versions
+    let background = globalThis.legacyOptions.background[config.background];
+    if (background) {
+        document.querySelector(`input[name="background"][value="${background}"]`).checked = true;
+    }
+
+    let fontSize = document.querySelector('#fontSize');
+    fontSize.value = globalThis.hanziSize(config);
+    document.querySelector('#fontSizeValue').textContent = fontSize.value;
 }
 
 // radio values are strings, stored options keep the type of their default value
@@ -63,4 +73,12 @@ window.addEventListener('load', () => {
         document.querySelector(`#${option}`).addEventListener('change',
             event => setOption(option, event.target.checked));
     });
+
+    let fontSize = document.querySelector('#fontSize');
+    fontSize.min = globalThis.fontSizes.min;
+    fontSize.max = globalThis.fontSizes.max;
+    fontSize.step = globalThis.fontSizes.step;
+    fontSize.addEventListener('input',
+        () => document.querySelector('#fontSizeValue').textContent = fontSize.value);
+    fontSize.addEventListener('change', () => setOption('fontSize', Number(fontSize.value)));
 });

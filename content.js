@@ -533,7 +533,7 @@ function showPopup(html, elem, x, y, looseWidth) {
     popup.style.width = 'max-content';
     popup.style.height = 'auto';
     popup.style.maxWidth = (looseWidth ? '' : '600px');
-    popup.className = `background-${config.background}`;
+    popup.className = globalThis.popupClassName(config);
     applyZoom(popup);
 
     popup.innerHTML = html;
@@ -772,11 +772,11 @@ function makeHtml(result, showToneColors) {
 
     if (result === null) return '';
 
-    let classes = 'ht-results ht-' + config.fontSize;
+    let classes = 'ht-results';
     if (config.hanziFont === 'kai') {
         classes += ' ht-kai';
     }
-    html += '<div class="' + classes + '">';
+    html += '<div class="' + classes + '" style="--hz: ' + globalThis.hanziSize(config) + 'px">';
 
     for (let i = 0; i < result.data.length; ++i) {
         // 修煉 修炼 [xiu1 lian4] {tu luyện} /nghĩa 1/nghĩa 2/
@@ -890,7 +890,7 @@ function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
             ? '<span class="tone' + p.tone + '">' + p.html + '</span>'
             : p.html).join(' ');
         return {
-            html: makeCellHtml(word, pinyinHtml, '', '', ''),
+            html: makeCellHtml(word, pinyinHtml, '', '', '', ''),
             pinyin: parts.map(p => p.text).join(' '),
             hanViet: ''
         };
@@ -912,6 +912,7 @@ function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
             config.showPinyin ? p.html : '',
             config.zhuyin ? zhuyinHtml(syllables[i]) : '',
             config.showHanViet ? reading : '',
+            p.tone,
             toneClass
         );
     }
@@ -923,8 +924,9 @@ function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
     };
 }
 
-function makeCellHtml(hanzi, pinyinHtml, zhuyin, hanViet, toneClass) {
-    let html = '<span class="ht-cell">';
+function makeCellHtml(hanzi, pinyinHtml, zhuyin, hanViet, tone, toneClass) {
+    // data-tone: for Han characters in the colour of their tone
+    let html = '<span class="ht-cell"' + (tone ? ' data-tone="' + tone + '"' : '') + '>';
     if (config.showPinyin) {
         html += '<span class="ht-py ' + toneClass + '">' + pinyinHtml + '</span>';
     }
@@ -954,23 +956,26 @@ function pinyinSyllable(syllable) {
     return { html: m[1] + t[0] + m[3], text: m[1] + t[1] + m[3], tone: m[4] };
 }
 
-// Vertical zhuyin: one symbol per line, tone mark on the right (˙ on top)
+// Vertical zhuyin: one letter per line, the tone mark beside the last letter
+// (˙ on top), as in the Hán Thông app
 function zhuyinHtml(syllable) {
     let parts = /[1-5]$/.test(syllable) ? globalThis.numericPinyin2ZhuyinParts(syllable) : null;
     if (!parts) {
         return '';
     }
     let [symbols, toneMark] = parts;
+    let letters = [...symbols];
     let html = '';
     if (toneMark === '˙') {
-        html += '<span class="ht-zy-neutral">' + toneMark + '</span>';
+        html += '<span class="ht-zy-l">˙</span>';
     }
-    for (let symbol of symbols) {
-        html += '<span>' + symbol + '</span>';
-    }
-    if (toneMark && toneMark !== '˙') {
-        html += '<span class="ht-zy-tone">' + toneMark + '</span>';
-    }
+    letters.forEach((letter, i) => {
+        html += '<span class="ht-zy-l">' + letter;
+        if (i === letters.length - 1 && toneMark && toneMark !== '˙') {
+            html += '<span class="ht-zy-t">' + toneMark + '</span>';
+        }
+        html += '</span>';
+    });
     return html;
 }
 
