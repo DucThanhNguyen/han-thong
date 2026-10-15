@@ -3,218 +3,203 @@
 <head>
     <title>Tùy chọn Hán Thông</title>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="shortcut icon" href="images/icon128.png"/>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <style>
-        @font-face {
-            font-family: 'Han Thong Kai';
-            src: url('fonts/HanThongKai.woff2') format('woff2');
-        }
-        .ht-sample, .ht-paper {
-            font-family: 'Han Thong Kai', 'Kaiti SC', 'KaiTi', serif;
-            font-size: 20px;
-            line-height: 1;
-        }
-        .ht-paper {
-            display: inline-grid;
-            place-items: center;
-            width: 28px;
-            height: 28px;
-            margin-right: 4px;
-            border-radius: 7px;
-            box-shadow: inset 0 0 0 1px rgb(127 127 127 / 0.35);
-            vertical-align: middle;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/options.css"/>
 </head>
 <body>
-<div class="container">
-    <h1 class="my-3">Tùy chọn Hán Thông</h1>
+<main>
+    <h1>Tùy chọn Hán Thông</h1>
 
-    <h2 class="mb-3">Phiên âm</h2>
+    <section>
+        <h2>Phiên âm</h2>
+        <div class="card">
+            <label class="row">
+                <span class="text">
+                    <span class="title">Pinyin</span>
+                    <span class="body">Phía trên chữ Hán</span>
+                </span>
+                <input type="checkbox" class="switch" id="showPinyin">
+            </label>
+            <label class="row">
+                <span class="text">
+                    <span class="title">Chú âm</span>
+                    <span class="body">Bên phải chữ Hán, theo chiều dọc</span>
+                </span>
+                <input type="checkbox" class="switch" id="zhuyin">
+            </label>
+            <label class="row">
+                <span class="text">
+                    <span class="title">Hán-Việt</span>
+                    <span class="body">Phía dưới chữ Hán</span>
+                </span>
+                <input type="checkbox" class="switch" id="showHanViet">
+            </label>
+            <label class="row">
+                <span class="text">
+                    <span class="title">Màu thanh điệu</span>
+                    <span class="body tones">Tô màu pinyin và chú âm:
+                        <span class="t1">ā</span> <span class="t2">á</span> <span class="t3">ǎ</span>
+                        <span class="t4">à</span> <span class="t5">a</span></span>
+                </span>
+                <input type="checkbox" class="switch" id="toneColors">
+            </label>
+        </div>
+    </section>
 
-    <div class="form-group mb-4">
-        <label>Phiên âm hiển thị quanh mỗi chữ Hán</label>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="showPinyin" name="showPinyin">
-            <label class="custom-control-label" for="showPinyin">Pinyin (phía trên)</label>
+    <section>
+        <h2>Chữ Hán</h2>
+        <div class="card">
+            <div class="row">
+                <span class="text">
+                    <label class="title" for="fontSize">Cỡ chữ</label>
+                    <span class="body">Pinyin, chú âm và Hán-Việt theo tỷ lệ cỡ chữ Hán</span>
+                </span>
+                <span class="slider">
+                    <span class="a-small" aria-hidden="true">A</span>
+                    <input type="range" id="fontSize">
+                    <span class="a-large" aria-hidden="true">A</span>
+                    <output id="fontSizeValue" for="fontSize"></output>
+                </span>
+            </div>
+            <fieldset class="row stacked">
+                <legend class="title">Font chữ</legend>
+                <div class="tiles cols-2">
+                    <label class="tile">
+                        <input type="radio" name="hanziFont" value="kai">
+                        <span class="zh kai big">永</span> Khải (楷書), giống nét viết tay
+                    </label>
+                    <label class="tile">
+                        <input type="radio" name="hanziFont" value="default">
+                        <span class="zh system big">永</span> Font của hệ thống
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="row stacked">
+                <legend class="title">Màu chữ</legend>
+                <div class="tiles cols-4 inks">
+                    <label class="tile column">
+                        <input type="radio" name="hanziColor" value="ink">
+                        <span class="zh kai" style="color: var(--ink)">中文</span> Mực đen
+                    </label>
+                    <label class="tile column">
+                        <input type="radio" name="hanziColor" value="blue">
+                        <span class="zh kai" style="color: var(--ink-blue)">中文</span> Mực xanh
+                    </label>
+                    <label class="tile column">
+                        <input type="radio" name="hanziColor" value="brown">
+                        <span class="zh kai" style="color: var(--ink-brown)">中文</span> Mực nâu
+                    </label>
+                    <label class="tile column">
+                        <input type="radio" name="hanziColor" value="tone">
+                        <span class="zh kai"><span class="t1">中</span><span class="t2">文</span></span> Thanh điệu
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="row stacked">
+                <legend class="title">Giản thể và phồn thể</legend>
+                <span class="segmented">
+                    <label><input type="radio" name="simpTrad" value="auto">Như trên trang web</label>
+                    <label><input type="radio" name="simpTrad" value="classic">Giản thể, kèm phồn thể</label>
+                </span>
+                <span class="body">“Giản thể, kèm phồn thể”: chữ phồn thể (nếu khác) hiện ở cột nghĩa</span>
+            </fieldset>
         </div>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="zhuyin" name="zhuyin">
-            <label class="custom-control-label" for="zhuyin"><a
-                    href="https://vi.wikipedia.org/wiki/Chú_âm_phù_hiệu" target="_blank">Chú âm (Bopomofo)</a>
-                (bên phải, theo chiều dọc)</label>
-        </div>
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="showHanViet" name="showHanViet">
-            <label class="custom-control-label" for="showHanViet">Âm Hán-Việt (phía dưới)</label>
-        </div>
-    </div>
+    </section>
 
-    <div class="form-group mb-4">
-        <label>Tô màu pinyin và chú âm theo thanh điệu</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="toneColorsOn" name="toneColors" class="custom-control-input"
-                   value="true">
-            <label class="custom-control-label" for="toneColorsOn">Tô màu</label>
+    <section>
+        <h2>Nền cửa sổ tra từ</h2>
+        <div class="card">
+            <fieldset class="row stacked">
+                <legend class="sr-only">Nền cửa sổ tra từ</legend>
+                <div class="papers">
+                    <label>
+                        <input type="radio" name="background" value="auto">
+                        <span class="swatch" style="background: linear-gradient(135deg, #fcfcfa 50%, #15171a 50%); color: #8a8e96">文</span>
+                        Tự động
+                    </label>
+                    <label>
+                        <input type="radio" name="background" value="light">
+                        <span class="swatch" style="background: #fcfcfa; color: #1d1f23">文</span>
+                        Trắng
+                    </label>
+                    <label>
+                        <input type="radio" name="background" value="sepia">
+                        <span class="swatch" style="background: #f4ecdc; color: #3a2e22">文</span>
+                        Giấy
+                    </label>
+                    <label>
+                        <input type="radio" name="background" value="blue">
+                        <span class="swatch" style="background: #e6eef5; color: #1e2b38">文</span>
+                        Xanh
+                    </label>
+                    <label>
+                        <input type="radio" name="background" value="gray">
+                        <span class="swatch" style="background: #e4e4e1; color: #26282b">文</span>
+                        Xám
+                    </label>
+                    <label>
+                        <input type="radio" name="background" value="dark">
+                        <span class="swatch" style="background: #15171a; color: #e7e5e0">文</span>
+                        Tối
+                    </label>
+                </div>
+                <span class="body">Tự động: nền trắng hoặc tối theo chế độ sáng / tối của hệ thống</span>
+            </fieldset>
         </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="toneColorsOff" name="toneColors" class="custom-control-input"
-                   value="false">
-            <label class="custom-control-label" for="toneColorsOff">Không tô màu</label>
-        </div>
-    </div>
+    </section>
 
-    <h2 class="mb-3">Giao diện cửa sổ tra từ</h2>
+    <section>
+        <h2>Tra từ</h2>
+        <div class="card">
+            <fieldset class="row">
+                <legend class="title">Số nghĩa hiển thị</legend>
+                <span class="segmented">
+                    <label><input type="radio" name="maxSenses" value="2">2</label>
+                    <label><input type="radio" name="maxSenses" value="4">4</label>
+                    <label><input type="radio" name="maxSenses" value="6">6</label>
+                    <label><input type="radio" name="maxSenses" value="0">Tất cả</label>
+                </span>
+            </fieldset>
+            <fieldset class="row stacked">
+                <legend class="title">Chỉ tra từ khi giữ phím</legend>
+                <span class="segmented">
+                    <label><input type="radio" name="popupKey" value="none">Không</label>
+                    <label><input type="radio" name="popupKey" value="shift">Shift</label>
+                    <label><input type="radio" name="popupKey" value="ctrl">Ctrl</label>
+                    <label><input type="radio" name="popupKey" value="alt">Alt / Option</label>
+                </span>
+                <span class="body">Cho người đã đọc khá, chỉ thỉnh thoảng cần tra: giữ phím trong lúc rê
+                    chuột, để không hiện cửa sổ tra từ ở những chữ đã biết</span>
+            </fieldset>
+            <fieldset class="row stacked">
+                <legend class="title">Lưu vào danh sách từ vựng (phím <kbd>R</kbd>)</legend>
+                <span class="segmented">
+                    <label><input type="radio" name="saveToWordList" value="firstEntryOnly">Chỉ mục đầu tiên</label>
+                    <label><input type="radio" name="saveToWordList" value="allEntries">Tất cả các mục</label>
+                </span>
+            </fieldset>
+        </div>
+    </section>
 
-    <div class="form-group mb-4">
-        <label>Font chữ Hán</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="hanziFontKai" name="hanziFont" class="custom-control-input"
-                   value="kai">
-            <label class="custom-control-label" for="hanziFontKai">Chữ Khải (楷書), giống nét viết tay</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="hanziFontDefault" name="hanziFont" class="custom-control-input"
-                   value="default">
-            <label class="custom-control-label" for="hanziFontDefault">Font mặc định của hệ thống</label>
-        </div>
-    </div>
+    <footer>
+        <button type="button" class="ghost" id="reset">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+            </svg>
+            Khôi phục mặc định
+        </button>
+        <a href="help.html" target="_blank">Hướng dẫn và phím tắt</a>
+    </footer>
+</main>
 
-    <div class="form-group mb-4">
-        <label for="fontSize">Cỡ chữ Hán (pinyin, chú âm và âm Hán-Việt theo tỷ lệ cỡ chữ Hán)</label>
-        <div class="d-flex align-items-center" style="max-width: 420px">
-            <span class="text-muted mr-2" style="font-size: 12px">A</span>
-            <input type="range" class="custom-range" id="fontSize" name="fontSize">
-            <span class="text-muted ml-2" style="font-size: 18px">A</span>
-            <span class="text-muted ml-3 text-nowrap" style="min-width: 3.5em"><span id="fontSizeValue"></span> px</span>
-        </div>
-    </div>
-
-    <div class="form-group mb-4">
-        <label>Màu chữ Hán</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="hanziColorInk" name="hanziColor" class="custom-control-input" value="ink">
-            <label class="custom-control-label" for="hanziColorInk"><span class="ht-sample" style="color: #1d1f23">中</span><span class="ht-sample" style="color: #1d1f23">文</span> Mực đen</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="hanziColorBlue" name="hanziColor" class="custom-control-input" value="blue">
-            <label class="custom-control-label" for="hanziColorBlue"><span class="ht-sample" style="color: #34558b">中</span><span class="ht-sample" style="color: #34558b">文</span> Mực xanh</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="hanziColorBrown" name="hanziColor" class="custom-control-input" value="brown">
-            <label class="custom-control-label" for="hanziColorBrown"><span class="ht-sample" style="color: #6e3b1f">中</span><span class="ht-sample" style="color: #6e3b1f">文</span> Mực nâu</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="hanziColorTone" name="hanziColor" class="custom-control-input" value="tone">
-            <label class="custom-control-label" for="hanziColorTone"><span class="ht-sample" style="color: #d23a30">中</span><span class="ht-sample" style="color: #ac5d12">文</span> Theo thanh điệu</label>
-        </div>
-    </div>
-
-    <div class="form-group mb-4">
-        <label>Màu nền</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundAuto" name="background" class="custom-control-input" value="auto">
-            <label class="custom-control-label" for="backgroundAuto"><span class="ht-paper" style="background: linear-gradient(135deg, #fcfcfa 50%, #15171a 50%); color: #8a8e96">文</span> Tự động (sáng hoặc tối theo hệ thống)</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundLight" name="background" class="custom-control-input" value="light">
-            <label class="custom-control-label" for="backgroundLight"><span class="ht-paper" style="background: #fcfcfa; color: #1d1f23">文</span> Trắng</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundSepia" name="background" class="custom-control-input" value="sepia">
-            <label class="custom-control-label" for="backgroundSepia"><span class="ht-paper" style="background: #f4ecdc; color: #3a2e22">文</span> Giấy</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundBlue" name="background" class="custom-control-input" value="blue">
-            <label class="custom-control-label" for="backgroundBlue"><span class="ht-paper" style="background: #e6eef5; color: #1e2b38">文</span> Xanh</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundGray" name="background" class="custom-control-input" value="gray">
-            <label class="custom-control-label" for="backgroundGray"><span class="ht-paper" style="background: #e4e4e1; color: #26282b">文</span> Xám</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="backgroundDark" name="background" class="custom-control-input" value="dark">
-            <label class="custom-control-label" for="backgroundDark"><span class="ht-paper" style="background: #15171a; color: #e7e5e0">文</span> Tối</label>
-        </div>
-    </div>
-
-    <div class="form-group mb-4">
-        <label>Chữ giản thể và phồn thể</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="simpTradAuto" name="simpTrad" class="custom-control-input"
-                   value="auto">
-            <label class="custom-control-label" for="simpTradAuto">Hiện đúng dạng chữ đang có trên trang
-                web (giản thể hoặc phồn thể)</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="simpTradClassic" name="simpTrad" class="custom-control-input"
-                   value="classic">
-            <label class="custom-control-label" for="simpTradClassic">Hiện chữ giản thể, kèm chữ phồn thể
-                (nếu khác) ở cột nghĩa</label>
-        </div>
-    </div>
-
-    <h2 class="mb-3">Nghĩa của từ</h2>
-
-    <div class="form-group mb-4">
-        <label>Số nghĩa hiển thị tối đa cho mỗi từ</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="maxSenses2" name="maxSenses" class="custom-control-input" value="2">
-            <label class="custom-control-label" for="maxSenses2">2 nghĩa</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="maxSenses4" name="maxSenses" class="custom-control-input" value="4">
-            <label class="custom-control-label" for="maxSenses4">4 nghĩa</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="maxSenses6" name="maxSenses" class="custom-control-input" value="6">
-            <label class="custom-control-label" for="maxSenses6">6 nghĩa</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="maxSenses0" name="maxSenses" class="custom-control-input" value="0">
-            <label class="custom-control-label" for="maxSenses0">Tất cả</label>
-        </div>
-    </div>
-
-    <h2 class="mb-3">Tùy chọn khác</h2>
-
-    <div class="form-group mb-4">
-        <label>Chỉ tra từ khi giữ phím (để không hiện cửa sổ tra từ ở những chữ đã biết)</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="popupKeyNone" name="popupKey" class="custom-control-input" value="none">
-            <label class="custom-control-label" for="popupKeyNone">Không, luôn tra từ khi rê chuột</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="popupKeyShift" name="popupKey" class="custom-control-input" value="shift">
-            <label class="custom-control-label" for="popupKeyShift">Giữ <kbd>Shift</kbd></label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="popupKeyCtrl" name="popupKey" class="custom-control-input" value="ctrl">
-            <label class="custom-control-label" for="popupKeyCtrl">Giữ <kbd>Ctrl</kbd></label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="popupKeyAlt" name="popupKey" class="custom-control-input" value="alt">
-            <label class="custom-control-label" for="popupKeyAlt">Giữ <kbd>Alt</kbd> (<kbd>Option</kbd> trên Mac)</label>
-        </div>
-    </div>
-
-    <div class="form-group mb-4">
-        <label>Lưu vào danh sách từ vựng (phím r)</label>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="saveToWordListAllEntries" name="saveToWordList"
-                   class="custom-control-input" value="allEntries">
-            <label class="custom-control-label" for="saveToWordListAllEntries">Lưu tất cả các mục</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="saveToWordListFirstEntryOnly" name="saveToWordList"
-                   class="custom-control-input" value="firstEntryOnly">
-            <label class="custom-control-label" for="saveToWordListFirstEntryOnly">Chỉ lưu mục đầu tiên</label>
-        </div>
-    </div>
-
+<div id="toast" role="status" aria-live="polite" hidden>
+    <span id="toastText"></span>
+    <button type="button" id="toastAction"></button>
 </div>
-<script src="js/config.js" ></script>
-<script src="js/options.js" type="text/javascript"></script>
+
+<script src="js/config.js"></script>
+<script src="js/options.js"></script>
 </body>
 </html>
