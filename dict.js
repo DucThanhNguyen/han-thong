@@ -85,6 +85,33 @@ export class ZhongwenDictionary {
         return main.length > 0 ? main : longest;
     }
 
+    // Entries of each character of a word of several characters, shown after the
+    // word's own: the meaning of the whole word does not always fit the context,
+    // and the first character cannot be looked up on its own in the text.
+    // The reading the word gives the character comes first.
+    charEntries(entry) {
+        let [line, word] = entry.data[0];
+        let chars = [...word];
+        if (chars.length < 2) {
+            return [];
+        }
+        let m = line.match(/\[(.*?)\]/);
+        let syllables = m ? m[1].toLowerCase().split(/\s+/) : [];
+        let readingOf = l => (l.match(/\[(.*?)\]/) || ['', ''])[1].toLowerCase();
+
+        // a character repeated in the word (飄飄) is shown once
+        return [...new Set(chars)].map(char => {
+            let found = this.wordSearch(char);
+            if (!found) {
+                return null;
+            }
+            let lines = ZhongwenDictionary.mainEntries(found).map(d => d[0]);
+            let reading = syllables.length === chars.length ? syllables[chars.indexOf(char)] : '';
+            lines.sort((a, b) => (readingOf(b) === reading) - (readingOf(a) === reading));
+            return {char, lines};
+        }).filter(c => c !== null);
+    }
+
     static isMinorEntry(line) {
         let m = line.match(/\/(.*)\//);
         if (!m) {

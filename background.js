@@ -331,6 +331,7 @@ function lookup(dictionary, text) {
     let entry = dictionary.wordSearch(text);
 
     if (entry) {
+        entry.chars = dictionary.charEntries(entry);
         entry.data = ZhongwenDictionary.mainEntries(entry);
     }
 

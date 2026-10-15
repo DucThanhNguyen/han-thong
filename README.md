@@ -18,7 +18,7 @@ của Christian Schiller.
 ## Tính năng
 
 - Hỗ trợ cả chữ giản thể và phồn thể.
-- Chỉ hiện từ khớp dài nhất và các nghĩa chính, để đọc nhanh mà không bị rối mắt.
+- Hiện từ khớp dài nhất với các nghĩa chính, kèm âm đọc và nghĩa của từng chữ trong từ.
 - Tô màu pinyin và chú âm theo thanh điệu, ba cỡ chữ, năm màu nền.
 - Bật/tắt bằng một cú nhấp vào biểu tượng trên thanh công cụ.
 - Tùy chọn chỉ tra từ khi giữ phím `Shift`, `Ctrl` hoặc `Alt`, cho người đã đọc khá và chỉ thỉnh thoảng cần tra.

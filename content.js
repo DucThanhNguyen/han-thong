@@ -789,9 +789,18 @@ function makeHtml(result, showToneColors) {
     }
     html += '<div class="' + classes + '" style="--hz: ' + globalThis.hanziSize(config) + 'px">';
 
-    for (let i = 0; i < result.data.length; ++i) {
+    // the word's entries, then those of each of its characters, shown as if the
+    // character had been looked up on its own (the reading it has in the word first)
+    let rows = result.data.slice();
+    (result.chars || []).forEach(c => c.lines.forEach(line => rows.push([line, c.char])));
+
+    for (let i = 0; i < rows.length; ++i) {
+        if (i === result.data.length && result.more) {
+            html += '<div class="ht-more">&hellip;</div>';
+        }
+
         // 修煉 修炼 [xiu1 lian4] {tu luyện} /nghĩa 1/nghĩa 2/
-        let entry = result.data[i][0].match(/^(\S+)\s+(\S+)\s+\[(.*?)\](?:\s+\{(.*?)\})?\s*\/(.*)\//);
+        let entry = rows[i][0].match(/^(\S+)\s+(\S+)\s+\[(.*?)\](?:\s+\{(.*?)\})?\s*\/(.*)\//);
         if (!entry) continue;
 
         let [, trad, simp, numericPinyin, hanViet, def] = entry;
@@ -801,7 +810,7 @@ function makeHtml(result, showToneColors) {
         let word = simp;
         let otherWord = '';
         if (config.simpTrad === 'auto') {
-            word = result.data[i][1];
+            word = rows[i][1];
         } else if (trad !== simp) {
             otherWord = trad;
         }
@@ -851,9 +860,12 @@ function makeHtml(result, showToneColors) {
             .concat(classifiers.length > 0 ? ['lượng từ: ' + classifiers.join(', ')] : [])
             .join(' ◆ ');
 
-        texts[i] = [simp, trad, w.pinyin, translation, w.hanViet];
+        // copying and the word list take the word's entries only
+        if (i < result.data.length) {
+            texts[i] = [simp, trad, w.pinyin, translation, w.hanViet];
+        }
     }
-    if (result.more) {
+    if (result.more && rows.length === result.data.length) {
         html += '<div class="ht-more">&hellip;</div>';
     }
     html += '</div>';
