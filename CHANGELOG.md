@@ -1,5 +1,37 @@
 # Hán Thông – Release notes / Ghi chú phát hành
 
+## 1.2.0
+
+### English
+
+**Easier to read pop-up**
+- Each word's meanings are shown right beside it, instead of in a column shared with the other words.
+- A word is never broken over two lines.
+- The meanings grow and shrink with the Han character size, like pinyin, zhuyin and Hán-Việt.
+
+**New-look pages**
+- The help and word list pages follow the options page, with a light and dark mode.
+- The word list has a search and button toolbar, Chinese in the Kai font, highlighted selected rows and a new notes dialog.
+
+**Dictionary**
+- A word can now have more than one Hán-Việt reading, each with its own meaning.
+- Fuller meanings for some words.
+
+### Tiếng Việt
+
+**Cửa sổ tra từ dễ đọc hơn**
+- Nghĩa của mỗi từ hiện ngay bên phải từ đó, không còn chung một cột với các từ khác.
+- Cụm từ luôn hiện trên một dòng, không bị ngắt dòng.
+- Cỡ chữ của phần nghĩa tăng giảm theo cỡ chữ Hán, như pinyin, chú âm và âm Hán-Việt.
+
+**Giao diện mới cho các trang**
+- Trang hướng dẫn và danh sách từ vựng theo phong cách trang tùy chọn, có chế độ sáng và tối.
+- Danh sách từ vựng có ô tìm kiếm và thanh nút, chữ Hán dùng font Khải, dòng được chọn được tô màu, hộp ghi chú mới.
+
+**Từ điển**
+- Một từ có thể có nhiều âm Hán-Việt, mỗi âm kèm nghĩa riêng.
+- Bổ sung nghĩa đầy đủ hơn cho một số từ.
+
 ## 1.1.0
 
 ### English
