@@ -25,9 +25,8 @@ Dữ liệu và font chữ đi kèm:
   chú âm và dấu thanh; xem fonts/NotoSansTC-OFL.txt.
 
 Từ điển gộp trong data/dict.u8 được sinh từ các nguồn trên, cùng các nghĩa
-bổ sung (data-src/hanthong.u8) và các âm Hán-Việt đã sửa
-(data-src/hanthong-hanviet.csv) của Hán Thông, bằng tools/build-dict.mjs và
-cũng được phân phối theo giấy phép CC BY-SA 4.0.
+bổ sung và các âm Hán-Việt đã sửa của Hán Thông, và cũng được phân phối theo
+giấy phép CC BY-SA 4.0.
 
 ### Contributors
 

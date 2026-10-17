@@ -1,3 +1,10 @@
 node_modules
 .idea
 han-thong.zip
+.DS_Store
+
+# kept only on the author's machine: dictionary sources and build tools,
+# Chrome Web Store assets (not needed to run the extension)
+data-src/
+tools/
+store/

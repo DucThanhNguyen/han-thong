@@ -35,7 +35,7 @@ của Christian Schiller.
 | Từ chưa có trong CVDICT | [CC-CEDICT](https://cc-cedict.org/wiki/) | CC BY-SA 4.0 |
 | Font chữ Khải | [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) (bản rút gọn) | SIL OFL 1.1 |
 | Font chú âm | [Noto Sans TC](https://github.com/notofonts/noto-cjk) (chỉ ký hiệu chú âm và dấu thanh) | SIL OFL 1.1 |
-| Nghĩa bổ sung, sửa âm Hán-Việt | `data-src/hanthong.u8`, `data-src/hanthong-hanviet.csv` | CC BY-SA 4.0 |
+| Nghĩa bổ sung, sửa âm Hán-Việt | Hán Thông | CC BY-SA 4.0 |
 
 Nghĩa tiếng Việt trong CVDICT phần lớn được dịch tự động bằng AI rồi rà soát lại, nên vẫn có thể còn sót lỗi.
 
@@ -45,25 +45,7 @@ Hán Thông chạy hoàn toàn trên máy, không gửi dữ liệu lên Interne
 
 ## Phát triển
 
-Dữ liệu gốc nằm trong `data-src/`. Sau khi cập nhật dữ liệu gốc, sinh lại từ điển:
-
-```bash
-npm run build:dict
-```
-
-Sinh lại font chữ Khải (cần `pip install fonttools brotli` và file `LXGWWenKai-Regular.ttf`):
-
-```bash
-npm run build:font -- path/to/LXGWWenKai-Regular.ttf
-```
-
-Xem trước cửa sổ tra từ mà không cần cài tiện ích:
-
-```bash
-python3 -m http.server 8080
-```
-
-rồi mở http://localhost:8080/tools/preview.html?words=修炼,银行,行
+Từ điển (`data/`) và font (`fonts/`) đã được sinh sẵn; không cần bước build nào để chạy tiện ích.
 
 Đóng gói để tải lên Chrome Web Store:
 
