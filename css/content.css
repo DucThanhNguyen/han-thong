@@ -152,19 +152,26 @@
    option; the annotations follow it */
 #zhongwen-window .ht-results {
   --hz: 32px;
-  display: grid;
-  grid-template-columns: auto minmax(10em, 24em);
-  column-gap: 14px;
+  display: flex;
+  flex-direction: column;
   row-gap: 8px;
-  align-items: center;
 }
 
-#zhongwen-window .ht-word {
+/* each word on its own row with its meanings right beside it; the meanings go
+   below the word only when both do not fit in the window */
+#zhongwen-window .ht-entry {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  column-gap: calc(var(--hz) * 0.6);
+}
+
+/* a word is never broken over two lines */
+#zhongwen-window .ht-word {
+  display: flex;
+  flex: none;
+  flex-wrap: nowrap;
   align-items: flex-start;
-  row-gap: 2px;
-  max-width: 460px;
 }
 
 #zhongwen-window .ht-cell {
@@ -239,14 +246,21 @@
   margin-left: 0.04em;
 }
 
+/* the meanings follow the Han character size: 14.4 px for the default 32 px */
+#zhongwen-window .ht-def {
+  flex: 0 1 auto;
+  max-width: 22em;
+  font-size: calc(var(--hz) * 0.45);
+}
+
 #zhongwen-window .ht-def,
 #zhongwen-window .ht-def * {
-  font-size: 14px;
+  font-size: calc(var(--hz) * 0.45);
   line-height: 1.45;
 }
 
 #zhongwen-window .ht-def .ht-other {
-  font-size: 19px;
+  font-size: calc(var(--hz) * 0.6);
   color: var(--ink-2);
 }
 
@@ -261,13 +275,11 @@
 }
 
 #zhongwen-window .ht-sep {
-  grid-column: 1 / -1;
   height: 1px;
   background: var(--rule) !important;
 }
 
 #zhongwen-window .ht-more {
-  grid-column: 1 / -1;
   color: var(--ink-3);
 }
 

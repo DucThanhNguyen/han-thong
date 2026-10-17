@@ -543,7 +543,8 @@ function showPopup(html, elem, x, y, looseWidth) {
     // position, which is too small once the popup is scaled for the page zoom
     popup.style.width = 'max-content';
     popup.style.height = 'auto';
-    popup.style.maxWidth = (looseWidth ? '' : '600px');
+    // no wider than the window (the meanings then go below the words)
+    popup.style.maxWidth = looseWidth ? '' : Math.max(300, window.innerWidth * zoomFactor - 40) + 'px';
     popup.className = globalThis.popupClassName(config);
     applyZoom(popup);
 
@@ -820,7 +821,8 @@ function makeHtml(result, showToneColors) {
         }
 
         let w = makeWordHtml(word, numericPinyin, hanViet, showToneColors);
-        html += '<div class="ht-word">' + w.html + '</div>';
+        // one row: the word, never broken, and its meanings beside it
+        html += '<div class="ht-entry"><div class="ht-word">' + w.html + '</div>';
 
         // Definition
 
@@ -854,7 +856,7 @@ function makeHtml(result, showToneColors) {
             }
         }
 
-        html += '</div>';
+        html += '</div></div>';
 
         let translation = meanings
             .concat(classifiers.length > 0 ? ['lượng từ: ' + classifiers.join(', ')] : [])
