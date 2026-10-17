@@ -5,7 +5,7 @@
   "version": "1.1.0",
   "author": "Nguyễn Đức Thành",
   "homepage_url": "https://github.com/DucThanhNguyen/han-thong",
-  "description": "Rê chuột lên chữ Hán để xem pinyin, chú âm, âm Hán-Việt và nghĩa tiếng Việt. Dựa trên Zhongwen của Christian Schiller.",
+  "description": "Di chuột lên chữ Hán để xem pinyin, chú âm, âm Hán-Việt và nghĩa tiếng Việt. Dựa trên Zhongwen của Christian Schiller.",
   "icons": {
     "16": "images/icon16.png",
     "32": "images/icon32.png",

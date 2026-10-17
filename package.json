@@ -1,7 +1,7 @@
 {
   "name": "han-thong",
   "version": "1.1.0",
-  "description": "Từ điển Trung–Việt khi rê chuột: pinyin, chú âm, âm Hán-Việt",
+  "description": "Từ điển Trung–Việt khi di chuột: pinyin, chú âm, âm Hán-Việt",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DucThanhNguyen/han-thong.git"

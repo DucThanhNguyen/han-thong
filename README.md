@@ -1,8 +1,8 @@
 # 漢通 Hán Thông
 
-## Tinh thông Hán tự
+## Tinh thông chữ Hán
 
-Từ điển Trung–Việt dành cho người Việt học tiếng Trung: rê chuột lên chữ Hán trên bất kỳ
+Từ điển Trung–Việt dành cho người Việt học tiếng Trung: di chuột lên chữ Hán trên bất kỳ
 trang web nào để xem ngay:
 
 - **Pinyin** phía trên mỗi chữ
