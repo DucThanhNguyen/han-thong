@@ -1,38 +1,227 @@
-body {
-    margin: 20px;
+/* Word list page. The page's base is in page.css. */
+
+main.wide {
+  max-width: 1120px;
+}
+
+.intro {
+  margin: -8px 0 20px;
+  padding: 0 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* ───────── toolbar ───────── */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.toolbar .spacer {
+  flex: 1;
+}
+
+#info {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 260px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink-3);
+}
+
+.search:focus-within {
+  outline: 3px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.search svg {
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+
+/* ───────── table ───────── */
+
+.table-card {
+  overflow-x: auto;
+}
+
+#words {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 #words th {
-    cursor: pointer;
-    user-select: none;
-    white-space: nowrap;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--sunken);
+  color: var(--ink-2);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+#words th:hover {
+  color: var(--ink);
 }
 
 #words th[data-sort="asc"]::after {
-    content: " ▲";
+  content: " ▲";
+  font-size: 0.8em;
 }
 
 #words th[data-sort="desc"]::after {
-    content: " ▼";
+  content: " ▼";
+  font-size: 0.8em;
+}
+
+#words td {
+  padding: 10px 14px;
+  border-top: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+#words tbody tr:first-child td {
+  border-top: 0;
 }
 
 #words tbody tr {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+#words tbody tr:hover td {
+  background: color-mix(in oklab, var(--sunken) 60%, transparent);
+}
+
+/* rows chosen for saving or deleting: tinted like a chosen tile of the options */
+#words tbody tr.selected td {
+  background: var(--wash);
+}
+
+#words tbody tr.selected td:first-child {
+  box-shadow: inset 3px 0 0 var(--seal);
+}
+
+#words td[data-key="id"] {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+#words td[data-key="simplified"],
+#words td[data-key="traditional"] {
+  font-family: 'Han Thong Kai', 'LXGW WenKai', 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+  font-size: 20px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+#words td[data-key="pinyin"],
+#words td[data-key="zhuyin"] {
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+#words td[data-key="zhuyin"] {
+  font-family: 'Han Thong Zhuyin', 'PingFang TC', sans-serif;
+}
+
+#words td[data-key="notes"] {
+  min-width: 140px;
 }
 
 #words td.notes-empty {
-    color: #6c757d;
-    font-style: italic;
+  color: var(--ink-3);
+  font-style: italic;
 }
 
+/* ───────── empty list ───────── */
+
+.empty {
+  display: grid;
+  gap: 4px;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+/* ───────── notes dialog ───────── */
+
 #editNotes {
-    border: none;
-    padding: 0;
-    width: 500px;
-    max-width: 90vw;
-    background: transparent;
+  width: 480px;
+  max-width: calc(100vw - 32px);
+  padding: 20px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
 }
 
 #editNotes::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+  background: rgb(0 0 0 / 0.35);
+}
+
+#editNotes h2 {
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+#editNotes .word {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+#editNotes .word .kai {
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+#editNotes textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
+}
+
+#editNotes .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
 }

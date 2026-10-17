@@ -2,95 +2,83 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Danh sách từ vựng – Hán Thông</title>
     <link rel="shortcut icon" href="images/icon128.png">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/page.css">
     <link rel="stylesheet" type="text/css" href="css/wordlist.css">
     <script src="js/zhuyin.js" ></script>
     <script src="js/config.js" ></script>
     <script src="js/wordlist.js" defer></script>
 </head>
 <body>
-<h1>Danh sách từ vựng</h1>
+<main class="wide">
+    <h1>Danh sách từ vựng</h1>
+    <p class="intro">
+        Nhấp vào một dòng để chọn, rồi lưu các dòng đã chọn ra file (để nhập vào Anki) hoặc xóa chúng.
+        Nhấp vào cột <em>Ghi chú</em> để thêm ghi chú, nhấp vào tiêu đề cột để sắp xếp.
+        Cửa sổ tra từ không hoạt động trên trang này.
+    </p>
 
-<p>Nhấp vào một dòng để chọn dòng đó, dòng được chọn sẽ được tô màu. Các dòng đã chọn có thể
-    lưu ra file hoặc xóa bằng các nút bên dưới bảng. Nhấp vào cột <em>Ghi chú</em> để thêm ghi chú cho từ.
-</p>
-<p>
-    Nhấp vào tiêu đề cột để sắp xếp tăng dần hoặc giảm dần.
-</p>
-<p>
-    <em>Cửa sổ tra từ của Hán Thông không hoạt động trên trang này.</em>
-</p>
+    <div class="toolbar">
+        <label class="search">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="m20 20-3.5-3.5"/>
+            </svg>
+            <span class="sr-only">Tìm</span>
+            <input type="search" id="search" placeholder="Tìm trong danh sách">
+        </label>
+        <span id="info"></span>
+        <span class="spacer"></span>
+        <button class="button" id="selectAll">Chọn tất cả</button>
+        <button class="button" id="deselectAll">Bỏ chọn</button>
+        <button class="button danger" id="delete">Xóa</button>
+        <button class="button primary" id="saveList">Lưu ra file</button>
+    </div>
 
-<div class="form-inline mb-2">
-    <label for="search" class="mr-2">Tìm:</label>
-    <input type="search" id="search" class="form-control form-control-sm">
-</div>
+    <div class="card table-card">
+        <table id="words">
+            <thead>
+            <tr>
+                <th data-key="id">#</th>
+                <th data-key="simplified">Giản thể</th>
+                <th data-key="traditional">Phồn thể</th>
+                <th data-key="pinyin">Pinyin</th>
+                <th data-key="zhuyin">Chú âm</th>
+                <th data-key="definition">Nghĩa</th>
+                <th data-key="notes">Ghi chú</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-<table id="words" class="table table-hover table-striped table-bordered">
-    <thead>
-    <tr>
-        <th data-key="id">ID</th>
-        <th data-key="simplified">Giản thể</th>
-        <th data-key="traditional">Phồn thể</th>
-        <th data-key="pinyin">Pinyin</th>
-        <th data-key="zhuyin">Chú âm</th>
-        <th data-key="definition">Nghĩa</th>
-        <th data-key="notes">Ghi chú</th>
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+    <div id="nodata" class="card empty">
+        <span class="title">Bạn chưa lưu từ nào</span>
+        <span class="body">Khi cửa sổ tra từ đang hiện, nhấn phím <kbd>R</kbd> để lưu từ vào danh sách.</span>
+    </div>
 
-<p id="info"></p>
-
-<div id="nodata" class="alert alert-primary">
-    Bạn chưa lưu từ nào. Khi cửa sổ tra từ đang hiện, nhấn phím "r" để lưu từ vào danh sách.
-</div>
-
-<a hidden id="savelink" download="HanThong-tu-vung.txt"></a>
-<button class="btn btn-success" id="saveList">Lưu các dòng đã chọn</button>
-
-<div class="btn-group">
-    <button class="btn btn-secondary" id="selectAll">Chọn tất cả</button>
-    <button class="btn btn-outline-secondary" id="deselectAll">Bỏ chọn tất cả</button>
-</div>
-
-<button class="btn btn-danger" id="delete">Xóa các dòng đã chọn</button>
+    <a hidden id="savelink" download="HanThong-tu-vung.txt"></a>
+</main>
 
 <dialog id="editNotes" aria-labelledby="editNotesTitle">
-    <form method="dialog" class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="editNotesTitle">Sửa ghi chú</h5>
-            <button type="submit" value="cancel" class="close" aria-label="Đóng">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <form method="dialog">
+        <h2 id="editNotesTitle">Ghi chú</h2>
+        <div class="word">
+            <span class="kai" id="simplifiedShown"></span>
+            <input type="hidden" id="simplified">
+            <input type="hidden" id="traditional">
+            <input type="hidden" id="definition">
+            <span class="body" id="definitionShown"></span>
         </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label for="simplified" class="col-form-label">Giản thể:</label>
-                <input type="text" disabled class="form-control" id="simplified">
-            </div>
-            <div class="form-group">
-                <label for="traditional" class="col-form-label">Phồn thể:</label>
-                <input type="text" disabled class="form-control" id="traditional">
-            </div>
-            <div class="form-group">
-                <label for="definition" class="col-form-label">Nghĩa:</label>
-                <input type="text" disabled class="form-control" id="definition">
-            </div>
-            <div class="form-group">
-                <label for="notes" class="col-form-label">Ghi chú:</label>
-                <textarea class="form-control" id="notes" autofocus></textarea>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" value="cancel" class="btn btn-secondary">Đóng</button>
-            <button type="submit" value="save" class="btn btn-primary">Lưu ghi chú</button>
+        <label for="notes" class="sr-only">Ghi chú</label>
+        <textarea id="notes" rows="4" autofocus placeholder="Ghi chú của bạn"></textarea>
+        <div class="actions">
+            <button type="submit" value="cancel" class="button">Đóng</button>
+            <button type="submit" value="save" class="button primary">Lưu ghi chú</button>
         </div>
     </form>
 </dialog>
-
 </body>
 </html>

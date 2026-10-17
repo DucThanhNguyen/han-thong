@@ -100,7 +100,7 @@ function render() {
         let row = tbody.insertRow();
         row.entry = entry;
         if (selected.has(entry)) {
-            row.classList.add('bg-info');
+            row.classList.add('selected');
         }
         for (let key of columns()) {
             let cell = row.insertCell();
@@ -133,7 +133,7 @@ function render() {
 
     let empty = entries.length === 0;
     document.getElementById('nodata').hidden = !empty;
-    table.hidden = empty;
+    table.closest('.table-card').hidden = empty;
     ['saveList', 'selectAll', 'deselectAll', 'delete'].forEach(id =>
         document.getElementById(id).disabled = empty);
 }
@@ -180,6 +180,9 @@ tbody.addEventListener('click', event => {
         document.getElementById('traditional').value = entry.traditional;
         document.getElementById('definition').value = entry.definition;
         document.getElementById('notes').value = entry.notes;
+        document.getElementById('simplifiedShown').textContent = entry.simplified +
+            (entry.traditional !== entry.simplified ? ' · ' + entry.traditional : '');
+        document.getElementById('definitionShown').textContent = entry.definition;
         // closing with Esc keeps the previous returnValue
         dialog.returnValue = '';
         dialog.showModal();
@@ -189,7 +192,7 @@ tbody.addEventListener('click', event => {
         } else {
             selected.add(entry);
         }
-        row.classList.toggle('bg-info');
+        row.classList.toggle('selected');
     }
 });
 

@@ -1,0 +1,359 @@
+/* The extension's own pages (options, help, word list): sections with a small
+   title, each a bordered card of rows (text on the left, a control or keys on
+   the right), in a light and a dark theme. Page-specific styles are in
+   options.css and wordlist.css. */
+
+@font-face {
+  font-family: 'Han Thong Kai';
+  src: url('../fonts/HanThongKai.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Han Thong Zhuyin';
+  src: url('../fonts/HanThongZhuyin.woff2') format('woff2');
+  unicode-range: U+02C7, U+02C9-02CB, U+02D9, U+3105-3129;
+}
+
+:root {
+  --paper: #fcfcfa;
+  --surface: #ffffff;
+  --sunken: #f2f2ee;
+  --ink: #1d1f23;
+  --ink-2: #5a5e66;
+  --ink-3: #8a8e96;
+  --rule: #e3e2dd;
+  --seal: #b3261e;
+  --wash: rgb(179 38 30 / 0.07);
+  --ring: rgb(179 38 30 / 0.5);
+  --tone-1: #d23a30;
+  --tone-2: #ac5d12;
+  --tone-3: #368142;
+  --tone-4: #2e6cbb;
+  --tone-5: #6f737c;
+  --ink-blue: #34558b;
+  --ink-brown: #6e3b1f;
+  --shadow-float: 0 14px 34px rgb(29 31 35 / 0.14), 0 2px 6px rgb(29 31 35 / 0.08);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #15171a;
+    --surface: #1e2125;
+    --sunken: #101214;
+    --ink: #e7e5e0;
+    --ink-2: #a9acb2;
+    --ink-3: #74787f;
+    --rule: #2c3036;
+    --seal: #c9372c;
+    --wash: rgb(238 106 92 / 0.13);
+    --ring: rgb(238 106 92 / 0.5);
+    --tone-1: #f0675e;
+    --tone-2: #ee9a4c;
+    --tone-3: #6cbf7a;
+    --tone-4: #6ea6e6;
+    --tone-5: #80848b;
+    --ink-blue: #93b4e6;
+    --ink-brown: #d9a57a;
+    --shadow-float: 0 16px 38px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.4);
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* hidden elements stay hidden whatever their display */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 14px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+section {
+  margin-bottom: 28px;
+}
+
+h2 {
+  margin: 0 0 8px;
+  padding: 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.card {
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 0;
+  border-top: 1px solid var(--rule);
+  min-width: 0;
+}
+
+.card > .row:first-child {
+  border-top: 0;
+}
+
+label.row {
+  cursor: pointer;
+}
+
+/* a title with its control below it */
+.row.stacked {
+  display: grid;
+  gap: 10px;
+}
+
+/* fieldset legends do not take part in flex layout: float them into the row */
+.row > legend {
+  float: left;
+  padding: 0;
+}
+
+fieldset.row:not(.stacked) > legend {
+  flex: 1;
+}
+
+fieldset.row:not(.stacked) {
+  justify-content: space-between;
+}
+
+.text {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: min(100%, 15rem);
+}
+
+.title {
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.body {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+kbd {
+  padding: 0 4px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--sunken);
+  font: inherit;
+  font-size: 0.9em;
+}
+
+a {
+  color: var(--ink-2);
+}
+
+a:hover {
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* tone colours of the samples */
+.t1 { color: var(--tone-1); }
+.t2 { color: var(--tone-2); }
+.t3 { color: var(--tone-3); }
+.t4 { color: var(--tone-4); }
+.t5 { color: var(--tone-5); }
+
+.tones span {
+  font-weight: 600;
+}
+
+/* ───────── Chinese text ───────── */
+
+.zh {
+  line-height: 1.15;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.zh.big {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.kai {
+  font-family: 'Han Thong Kai', 'LXGW WenKai', 'Kaiti SC', 'STKaiti', 'KaiTi', serif;
+}
+
+.system {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+}
+
+/* ───────── footer, toast ───────── */
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+footer a {
+  font-size: 13px;
+}
+
+button.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-2);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+button.ghost:hover:not(:disabled) {
+  background: var(--sunken);
+  color: var(--ink);
+}
+
+button.ghost:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+button.ghost svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 10px 10px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-float);
+  transform: translateX(-50%);
+}
+
+#toast[hidden] {
+  display: none;
+}
+
+#toastAction {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--sunken);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ───────── buttons ───────── */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--sunken);
+}
+
+.button.primary {
+  border-color: var(--seal);
+  background: var(--seal);
+  color: #ffffff;
+}
+
+.button.primary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--seal) 88%, black);
+}
+
+.button.danger {
+  color: var(--seal);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+@media (width < 600px) {
+  main {
+    padding: 16px 12px 40px;
+  }
+}
