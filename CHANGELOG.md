@@ -1,23 +1,18 @@
-# Hán Thông – Release notes / Ghi chú phát hành
+# Hán Thông – Ghi chú phát hành
+
+## 1.3.0
+
+**Đọc kiểu Đài Loan**
+- Tùy chọn mới "Đọc kiểu Đài Loan" (mặc định tắt): pinyin, chú âm và màu thanh điệu theo âm Đài Loan (國語) khi có, ví dụ 垃圾 lè sè, 明白 míng bái, 星期 xīng qí, 危險 wéi xiǎn.
+- Dùng được cả với chữ giản thể. Âm Hán-Việt, nghĩa và danh sách từ vựng giữ nguyên.
+- Âm Đài Loan lấy từ 《國語辭典簡編本》 của Bộ Giáo dục Đài Loan và ghi chú "Taiwan pr." của CC-CEDICT.
+
+**Từ điển**
+- Âm Hán-Việt theo nghĩa của chữ trong từ, cho 1.359 từ: 晚上 vãn thượng, 好處 hảo xứ, 部分 bộ phận, 下場 hạ trường, 凱旋 khải hoàn, 領導 lãnh đạo, 推敲 thôi xao, 潮水 triều thủy.
+- 智慧 đọc là trí huệ, 更 đọc là cánh trước càng, 最長 nghĩa "dài nhất" trước "lâu nhất".
+- 18 từ mới, như 大法, 創世主, 實實在在, 半神半人, 得道者, 從小到大, 好覺.
 
 ## 1.2.0
-
-### English
-
-**Easier to read pop-up**
-- Each word's meanings are shown right beside it, instead of in a column shared with the other words.
-- A word is never broken over two lines.
-- The meanings grow and shrink with the Han character size, like pinyin, zhuyin and Hán-Việt.
-
-**New-look pages**
-- The help and word list pages follow the options page, with a light and dark mode.
-- The word list has a search and button toolbar, Chinese in the Kai font, highlighted selected rows and a new notes dialog.
-
-**Dictionary**
-- A word can now have more than one Hán-Việt reading, each with its own meaning.
-- Fuller meanings for some words.
-
-### Tiếng Việt
 
 **Cửa sổ tra từ dễ đọc hơn**
 - Nghĩa của mỗi từ hiện ngay bên phải từ đó, không còn chung một cột với các từ khác.
@@ -33,31 +28,6 @@
 - Bổ sung nghĩa đầy đủ hơn cho một số từ.
 
 ## 1.1.0
-
-### English
-
-**A new look**
-- Six backgrounds for the pop-up: White, Paper, Blue, Gray, Dark, and Auto (light or dark with your system).
-- Choose the colour of the Han characters: black ink, blue ink, brown ink, or each character in the colour of its tone.
-- Han character size from 20 to 64 px (32 px by default); pinyin, zhuyin and Hán-Việt scale with it.
-- Clearer zhuyin (Noto Sans TC), with the tone mark beside the last letter as in printed books.
-- New pop-up frame: rounded corners, a light border and a soft shadow.
-
-**Easier to read and look up**
-- After a compound word, each of its characters is shown as if looked up alone, with the reading used in the word first. The first character of a word can now be looked up too.
-- The pop-up keeps the same size at any page zoom.
-- New option: look up words only while Shift, Ctrl or Alt is held, for readers who only need a word now and then.
-
-**A new options page**
-- A cleaner layout, with a light and dark mode.
-- "Khôi phục mặc định" puts every option back to its default, with an undo.
-
-**Dictionary**
-- 607 new words, and new or better-ordered meanings for 1,173 words.
-
-Options saved by version 1.0 (background, font size) are converted automatically.
-
-### Tiếng Việt
 
 **Giao diện mới**
 - Sáu nền cho cửa sổ tra từ: Trắng, Giấy, Xanh, Xám, Tối và Tự động (sáng hoặc tối theo hệ thống).
@@ -82,4 +52,4 @@ Tùy chọn đã lưu ở phiên bản 1.0 (màu nền, cỡ chữ) được chu
 
 ## 1.0.0
 
-First release / Phiên bản đầu tiên.
+Phiên bản đầu tiên.
