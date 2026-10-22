@@ -14,6 +14,8 @@ globalThis.defaultConfig = {
     showHanViet: true,
     showPinyin: true,
     simpTrad: 'auto',
+    // "Đọc kiểu Đài Loan": pinyin and zhuyin as read in Taiwan (data/taiwan.tsv)
+    taiwan: false,
     toneColors: true,
     zhuyin: true
 };

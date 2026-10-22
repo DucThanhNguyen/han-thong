@@ -235,3 +235,9 @@ input[type="range"]::-webkit-slider-thumb {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* source of the Taiwan readings, under the hint */
+.body.source {
+  font-size: 12px;
+  word-break: break-word;
+}

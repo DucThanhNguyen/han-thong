@@ -319,11 +319,12 @@ function search(text) {
 }
 
 async function loadDictionary() {
-    let [wordDict, wordIndex] = await Promise.all([
+    let [wordDict, wordIndex, taiwan] = await Promise.all([
         fetch(chrome.runtime.getURL('data/dict.u8')).then(r => r.text()),
-        fetch(chrome.runtime.getURL('data/dict.idx')).then(r => r.text())
+        fetch(chrome.runtime.getURL('data/dict.idx')).then(r => r.text()),
+        fetch(chrome.runtime.getURL('data/taiwan.tsv')).then(r => r.text())
     ]);
-    return new ZhongwenDictionary(wordDict, wordIndex);
+    return new ZhongwenDictionary(wordDict, wordIndex, taiwan);
 }
 
 function lookup(dictionary, text) {
@@ -333,6 +334,8 @@ function lookup(dictionary, text) {
     if (entry) {
         entry.chars = dictionary.charEntries(entry);
         entry.data = ZhongwenDictionary.mainEntries(entry);
+        entry.taiwan = dictionary.taiwanReadings(
+            entry.data.map(d => d[0]).concat(...entry.chars.map(c => c.lines)));
     }
 
     return entry;

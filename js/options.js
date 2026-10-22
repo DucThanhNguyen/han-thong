@@ -16,7 +16,7 @@ let config = {...defaults};
 
 // options shown as radio buttons (value attribute) and as switches
 const radioOptions = ['background', 'hanziColor', 'hanziFont', 'maxSenses', 'popupKey', 'saveToWordList', 'simpTrad'];
-const checkboxOptions = ['showPinyin', 'zhuyin', 'showHanViet', 'toneColors'];
+const checkboxOptions = ['showPinyin', 'zhuyin', 'showHanViet', 'toneColors', 'taiwan'];
 
 chrome.storage.local.get(optionNames, storedConfig => {
     Object.assign(config, storedConfig);

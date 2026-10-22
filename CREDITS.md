@@ -15,6 +15,14 @@ Dữ liệu và font chữ đi kèm:
 * Từ chưa có trong CVDICT (chỉ dùng chữ Hán và pinyin): CC-CEDICT,
   giấy phép CC BY-SA 4.0 (https://www.mdbg.net/chinese/dictionary?page=cedict)
 
+* Âm Đài Loan cho tùy chọn "Đọc kiểu Đài Loan" (data/taiwan.tsv, lấy từ ứng
+  dụng Hán Thông): âm đọc chuẩn của
+  中華民國教育部（Ministry of Education, R.O.C.）。《國語辭典簡編本》（版本編號：2014_20260929）網址：http://dict.concised.moe.edu.tw/
+  giấy phép CC BY-ND 3.0 TW (https://creativecommons.org/licenses/by-nd/3.0/tw/legalcode),
+  cùng các ghi chú "Taiwan pr." của CC-CEDICT. Tên mục phồn thể và âm đọc giữ
+  nguyên, chỉ viết lại dạng pinyin số. Nguồn và nguyên văn 使用說明 của bên cấp
+  phép: data/taiwan-readings.license.txt, luôn đi kèm dữ liệu.
+
 * Font chữ Khải: LXGW WenKai (霞鹜文楷) của LXGW, giấy phép SIL Open Font
   License 1.1 (https://github.com/lxgw/LxgwWenKai). Bản đi kèm chỉ chứa một
   phần các chữ; xem fonts/OFL.txt.

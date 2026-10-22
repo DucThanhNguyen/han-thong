@@ -48,10 +48,57 @@
 
 export class ZhongwenDictionary {
 
-    constructor(wordDict, wordIndex) {
+    constructor(wordDict, wordIndex, taiwan) {
         this.wordDict = wordDict;
         this.wordIndex = wordIndex;
         this.cache = {};
+
+        // data/taiwan.tsv: TRAD<tab>pin1 yin1<tab>Taiwan pin1 yin1, readings of
+        // 《國語辭典簡編本》 and CC-CEDICT's "Taiwan pr." that differ from the
+        // dictionary's, for the option "Đọc kiểu Đài Loan"
+        this.taiwan = new Map();
+        for (let line of (taiwan || '').split('\n')) {
+            let [word, pinyin, taiwanPinyin] = line.replace(/\r$/, '').split('\t');
+            if (taiwanPinyin) {
+                this.taiwan.set(word + '\t' + pinyin, taiwanPinyin);
+            }
+        }
+    }
+
+    // The Taiwan reading of each entry line that has one: {line: 'le4 se4'}.
+    // The word's own reading (垃圾 lè sè), else that of each of its characters
+    // (期 qí in 星期), keyed by the traditional form, so that simplified text
+    // gets it too. Only shown: the line, its pinyin and its Hán-Việt stay as they are.
+    taiwanReadings(lines) {
+        let readings = {};
+        for (let line of lines) {
+            let m = line.match(/^(\S+) \S+ \[([^\]]*)\]/);
+            if (!m) {
+                continue;
+            }
+            let trad = m[1];
+            let syllables = m[2].split(' ');
+            let pinyin = m[2].toLowerCase();
+            let taiwan = this.taiwan.get(trad + '\t' + pinyin);
+            let chars = [...trad];
+            if (taiwan) {
+                taiwan = taiwan.split(' ');
+            } else if (chars.length === syllables.length) {
+                taiwan = syllables.map((s, i) => this.taiwan.get(chars[i] + '\t' + s.toLowerCase()) || s);
+            } else {
+                continue;
+            }
+            if (taiwan.length !== syllables.length) {
+                continue;
+            }
+            // proper nouns keep their capital letter: 亞洲 Yà zhōu
+            taiwan = taiwan.map((s, i) => syllables[i] !== syllables[i].toLowerCase() && s === s.toLowerCase()
+                ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+            if (taiwan.join(' ') !== m[2]) {
+                readings[line] = taiwan.join(' ');
+            }
+        }
+        return readings;
     }
 
     static find(needle, haystack) {

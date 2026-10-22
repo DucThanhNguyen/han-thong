@@ -820,7 +820,9 @@ function makeHtml(result, showToneColors) {
             html += '<div class="ht-sep"></div>';
         }
 
-        let w = makeWordHtml(word, numericPinyin, hanViet, showToneColors);
+        // "Đọc kiểu Đài Loan": the Taiwan reading is shown, the dictionary's is kept
+        let taiwanPinyin = config.taiwan && result.taiwan ? result.taiwan[rows[i][0]] : undefined;
+        let w = makeWordHtml(word, numericPinyin, hanViet, showToneColors, taiwanPinyin);
         // one row: the word, never broken, and its meanings beside it
         html += '<div class="ht-entry"><div class="ht-word">' + w.html + '</div>';
 
@@ -903,20 +905,26 @@ function escapeHtml(text) {
 }
 
 // One cell per character: pinyin above, zhuyin on the right, Hán-Việt below.
-function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
+// shownPinyin: another reading to show (Taiwan), same syllable count; the
+// returned pinyin (copy, word list) stays numericPinyin.
+function makeWordHtml(word, numericPinyin, hanViet, showToneColors, shownPinyin) {
     let chars = [...word];
     let syllables = numericPinyin.split(/\s+/).filter(s => s !== '');
+    let shown = shownPinyin ? shownPinyin.split(/\s+/).filter(s => s !== '') : syllables;
+    if (shown.length !== syllables.length) {
+        shown = syllables;
+    }
     let readings = hanViet ? hanViet.split(' ') : [];
 
     if (chars.length !== syllables.length) {
         // cannot align characters and syllables: show the whole word in one cell
-        let parts = syllables.map(pinyinSyllable).filter(p => p.text !== '');
+        let parts = shown.map(pinyinSyllable).filter(p => p.text !== '');
         let pinyinHtml = parts.map(p => (showToneColors && p.tone)
             ? '<span class="tone' + p.tone + '">' + p.html + '</span>'
             : p.html).join(' ');
         return {
             html: makeCellHtml(word, pinyinHtml, '', '', '', ''),
-            pinyin: parts.map(p => p.text).join(' '),
+            pinyin: syllables.map(pinyinSyllable).map(p => p.text).filter(t => t !== '').join(' '),
             hanViet: ''
         };
     }
@@ -925,9 +933,9 @@ function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
     let pinyin = [];
     let hanVietText = [];
     for (let i = 0; i < chars.length; i++) {
-        let p = pinyinSyllable(syllables[i]);
+        let p = pinyinSyllable(shown[i]);
         let toneClass = (showToneColors && p.tone) ? 'tone' + p.tone : '';
-        pinyin.push(p.text);
+        pinyin.push(pinyinSyllable(syllables[i]).text);
 
         let reading = (readings[i] && readings[i] !== '_') ? readings[i] : '';
         hanVietText.push(reading);
@@ -935,7 +943,7 @@ function makeWordHtml(word, numericPinyin, hanViet, showToneColors) {
         html += makeCellHtml(
             chars[i],
             config.showPinyin ? p.html : '',
-            config.zhuyin ? zhuyinHtml(syllables[i]) : '',
+            config.zhuyin ? zhuyinHtml(shown[i]) : '',
             config.showHanViet ? reading : '',
             p.tone,
             toneClass

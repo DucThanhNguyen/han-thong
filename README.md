@@ -35,6 +35,7 @@ của Christian Schiller.
 | Từ chưa có trong CVDICT | [CC-CEDICT](https://cc-cedict.org/wiki/) | CC BY-SA 4.0 |
 | Font chữ Khải | [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) (bản rút gọn) | SIL OFL 1.1 |
 | Font chú âm | [Noto Sans TC](https://github.com/notofonts/noto-cjk) (chỉ ký hiệu chú âm và dấu thanh) | SIL OFL 1.1 |
+| Âm Đài Loan (tùy chọn “Đọc kiểu Đài Loan”) | 中華民國教育部（Ministry of Education, R.O.C.）。《國語辭典簡編本》（版本編號：2014_20260929）網址：http://dict.concised.moe.edu.tw/ ; ghi chú “Taiwan pr.” của CC-CEDICT | CC BY-ND 3.0 TW ; CC BY-SA 4.0 |
 | Nghĩa bổ sung, sửa âm Hán-Việt | Hán Thông | CC BY-SA 4.0 |
 
 Nghĩa tiếng Việt trong CVDICT phần lớn được dịch tự động bằng AI rồi rà soát lại, nên vẫn có thể còn sót lỗi.
