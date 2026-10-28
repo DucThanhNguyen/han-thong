@@ -1,5 +1,13 @@
 # Hán Thông – Ghi chú phát hành
 
+## 1.3.1
+
+**Từ điển**
+- 176 từ mới, phần lớn là thuật ngữ tu luyện và khí công: 天目, 煉功, 功法, 法身, 覺者, 周天, 元嬰, 返本歸真, 三界, 末法時期.
+- Bổ sung nghĩa tu luyện cho các từ đã có, như 丹, 丹田, 不二法門, 五通, 佛家, 信息.
+- Sửa âm Hán-Việt cho 181 từ: 尺 xích (không phải thước), 轉 chuyển, 革命 cách mạng, 容易 dung dị.
+- Sửa pinyin cho 22 từ, như 起來 qǐ lái, 回來 huí lái, 出來 chū lái.
+
 ## 1.3.0
 
 **Đọc kiểu Đài Loan**
